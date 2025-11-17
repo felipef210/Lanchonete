@@ -1,0 +1,6 @@
+@LachoneteApi_HostAddress = http://localhost:5287
+
+GET {{LachoneteApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
