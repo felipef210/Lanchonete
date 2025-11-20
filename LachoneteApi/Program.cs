@@ -1,5 +1,6 @@
 using System.Text;
 using LachoneteApi.Data;
+using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.Order;
 using LachoneteApi.Repositories.Product;
@@ -23,6 +24,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Context>(options => {
         options.UseNpgsql(builder.Configuration["DbConnection"]);
 });
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddCors(options =>
 {
@@ -76,6 +80,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.UseCors();
 

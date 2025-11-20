@@ -1,5 +1,6 @@
 using AutoMapper;
 using LachoneteApi.Dto.Product;
+using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.Product;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public class ProdutoService : IProdutoService
         var produto = await _produtoRepository.GetProdutoById(id);
 
         if (produto is null)
-            throw new Exception("Produto não encontrado!");
+            throw new NaoEncontradoException("Produto não encontrado!");
         
         var produtoDto = _mapper.Map<ProdutoDto>(produto);
 
@@ -39,6 +40,15 @@ public class ProdutoService : IProdutoService
 
     public async Task<ProdutoDto> AdicionarProduto([FromBody] CriarProdutoDto criarProdutoDto)
     {
+        if (criarProdutoDto.Nome is null)
+            throw new ParametroInvalidoException("Insira o nome do produto!");
+
+        if (criarProdutoDto.Preco < 0)
+            throw new ParametroInvalidoException("O valor do produto deve ser positivo!");
+
+        if (criarProdutoDto.Descricao is null)
+            throw new ParametroInvalidoException("Insira a descrição do produto!");
+
         var produto = _mapper.Map<Produto>(criarProdutoDto);
         await _produtoRepository.AdicionarProduto(produto);
 
@@ -47,10 +57,19 @@ public class ProdutoService : IProdutoService
 
     public async Task<ProdutoDto> EditarProduto(Guid id, [FromBody] EditarProdutoDto editarProdutoDto)
     {
+        if (editarProdutoDto.Nome is null)
+            throw new ParametroInvalidoException("Insira o nome do produto!");
+
+        if (editarProdutoDto.Preco < 0)
+            throw new ParametroInvalidoException("O valor do produto deve ser positivo!");
+
+        if (editarProdutoDto.Descricao is null)
+            throw new ParametroInvalidoException("Insira a descrição do produto!");
+
         var produto = _produtoRepository.GetProdutoById(id);
 
         if (produto is null)
-            throw new Exception("Produto não encontrado!");
+            throw new NaoEncontradoException("Produto não encontrado!");
 
         await _mapper.Map(editarProdutoDto, produto);
 
@@ -64,7 +83,7 @@ public class ProdutoService : IProdutoService
         var produto = await _produtoRepository.GetProdutoById(id);
 
         if (produto is null)
-            throw new Exception("Produto não encontrado!");
+            throw new NaoEncontradoException("Produto não encontrado!");
 
         await _produtoRepository.DeletarProduto(id);
     }

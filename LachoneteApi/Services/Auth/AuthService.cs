@@ -1,4 +1,5 @@
 using LachoneteApi.Dto.User;
+using LachoneteApi.Exceptions;
 using LachoneteApi.Repositories.User;
 using LachoneteApi.Services.Token;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,12 @@ public class AuthService : IAuthService
 
     public async Task<string> Login([FromBody] LoginDto loginDto)
     {
+        if (loginDto.Email is null)
+            throw new ParametroInvalidoException("Insira o endereço de e-mail!");
+
+        if (loginDto.Senha is null)
+            throw new ParametroInvalidoException("Insira a sua senha!");
+
         var usuario = await _usuarioRepository.ExistingUser(loginDto.Email) ?? throw new UnauthorizedAccessException("E-mail ou senha inválido!");
         var senha = loginDto.Senha.Trim();
 

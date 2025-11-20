@@ -1,5 +1,6 @@
 using AutoMapper;
 using LachoneteApi.Dto.Order;
+using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.Order;
 using LachoneteApi.Repositories.Product;
@@ -30,13 +31,17 @@ public class PedidoService : IPedidoService
 
         decimal total = 0;
 
+        // Verifica se há itens dentro do array.
+        if (criarPedidoDto.Itens.Count <= 0)
+            throw new ParametroInvalidoException("Insira itens no seu pedido!");
+
         // 2. Adicionar itens
         foreach (var itemDto in criarPedidoDto.Itens)
         {
             var produto = await _produtoRepository.GetProdutoById(itemDto.ProdutoId);
 
-            if (produto == null)
-                throw new Exception($"Produto não encontrado: {itemDto.ProdutoId}");
+            if (produto is null)
+                throw new NaoEncontradoException($"Produto não encontrado!");
 
             var item = new ItemPedido
             {
@@ -74,7 +79,7 @@ public class PedidoService : IPedidoService
         var pedido = await _pedidoRepository.GetPedidoById(id);
 
         if (pedido is null)
-            throw new Exception("Pedido não encontrado");
+            throw new NaoEncontradoException($"Pedido não encontrado!");
 
         var pedidoDto = _mapper.Map<PedidoDto>(pedido);
 
@@ -86,7 +91,7 @@ public class PedidoService : IPedidoService
         var pedido = await _pedidoRepository.GetPedidoById(id);
 
         if (pedido is null)
-            throw new Exception("Pedido não encontrado");
+            throw new NaoEncontradoException("Pedido não encontrado");
 
         await _pedidoRepository.DeletarPedido(id);
     }
@@ -96,9 +101,8 @@ public class PedidoService : IPedidoService
         // 1. Buscar pedido existente
         var pedido = await _pedidoRepository.GetPedidoById(id);
 
-        if (pedido == null)
-            throw new Exception("Pedido não encontrado");
-
+        if (pedido is null)
+            throw new NaoEncontradoException($"Pedido não encontrado!");
         // 2. Atualizar dados simples
         _mapper.Map(atualizarPedidoDto, pedido);
 
@@ -106,12 +110,16 @@ public class PedidoService : IPedidoService
         pedido.Itens.Clear();
         decimal total = 0;
 
+        // Verifica se há itens dentro do array.
+        if (atualizarPedidoDto.Itens.Count <= 0)
+            throw new ParametroInvalidoException("Insira itens no seu pedido!");
+
         foreach (var itemDto in atualizarPedidoDto.Itens)
         {
             var produto = await _produtoRepository.GetProdutoById(itemDto.ProdutoId);
 
-            if (produto == null)
-                throw new Exception($"Produto inválido: {itemDto.ProdutoId}");
+            if (produto is null)
+                throw new NaoEncontradoException($"Produto não encontrado!");
 
             var item = new ItemPedido
             {

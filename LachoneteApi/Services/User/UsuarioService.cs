@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AutoMapper;
 using LachoneteApi.Dto.Order;
+using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.User;
 using Microsoft.AspNetCore.Mvc;
@@ -23,16 +24,32 @@ public class UsuarioService : IUsuarioService
         var usuarioCadastrado = await _usuarioRepository.ExistingUser(cadastroDto.Email);
 
         if (usuarioCadastrado is not null)
-            throw new Exception("E-mail já cadastrado! Tente outro endereço");
+            throw new ParametroInvalidoException("E-mail já cadastrado! Tente outro endereço");
 
+        if (cadastroDto.Nome is null)
+            throw new ParametroInvalidoException("O nome do usuário é obrigatório!");
+
+        if (cadastroDto.Email is null)
+            throw new ParametroInvalidoException("O e-mail do usuário é obrigatório");
+        
         if (!IsFullName(cadastroDto.Nome))
-            throw new Exception("Insira seu nome completo!");
+            throw new ParametroInvalidoException("Insira seu nome completo!");
 
+        if (!IsEmailValid(cadastroDto.Email))
+            throw new ParametroInvalidoException("E-mail no formato incorreto!");
+        
         if (!IsPasswordValid(cadastroDto.Senha))
-            throw new Exception("Senha no padrão incorreto!");
+            throw new ParametroInvalidoException("Senha no padrão incorreto!");
+
+        if (cadastroDto.Telefone is null)
+            throw new ParametroInvalidoException("O número de telefone é obrigatório!");
+
+        if (IsPhoneNumberValid(cadastroDto.Telefone))
+            throw new ParametroInvalidoException("O número de telefone é inválido!");
     
         var usuario = _mapper.Map<Usuario>(cadastroDto);
         usuario.Nome = CapitalizeFullName(usuario.Nome);
+        usuario.Telefone = FormatarTelefone(usuario.Telefone);
         usuario.Senha = BCrypt.Net.BCrypt.HashPassword(cadastroDto.Senha);
 
         await _usuarioRepository.Cadastrar(usuario);
@@ -58,10 +75,35 @@ public class UsuarioService : IUsuarioService
             }));
     }
 
+    private bool IsEmailValid(string email)
+    {
+        Regex regex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$");
+        return regex.IsMatch(email);
+    }
+
     private bool IsPasswordValid(string password)
     {
         Regex regex = new Regex(@"^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&_*-])[A-Za-z\d!@#$%^&_*-]{8,}$");
         return regex.IsMatch(password);
+    }
+
+    private bool IsPhoneNumberValid(string phoneNumber)
+    {
+        Regex regex = new Regex(@"^\(?[1-9]{2}\)?\s?[6-9]\d{4}-?\d{4}$");
+        return regex.IsMatch(phoneNumber);
+    }
+
+    private static string FormatarTelefone(string telefone)
+    {
+        telefone = new string(telefone.Where(char.IsDigit).ToArray());
+
+        if (telefone.Length == 11)
+            return Regex.Replace(telefone, @"(\d{2})(\d{5})(\d{4})", "($1) $2-$3");
+
+        if (telefone.Length == 10)
+            return Regex.Replace(telefone, @"(\d{2})(\d{4})(\d{4})", "($1) $2-$3");
+
+        return telefone;
     }
 
     private bool IsFullName(string fullName)
