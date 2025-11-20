@@ -11,4 +11,5 @@ public interface IPedidoService
     Task<PedidoDto> GetPedidoById(Guid id);
     Task DeletarPedido(Guid id);
     Task<PedidoDto> AtualizarPedido(Guid id, AtualizarPedidoDto atualizarPedidoDto);
+    Task<List<PedidoDto>> ListarPedidosPorUsuario();
 }

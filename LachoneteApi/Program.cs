@@ -1,7 +1,6 @@
 using System.Text;
 using LachoneteApi.Data;
 using LachoneteApi.Exceptions;
-using LachoneteApi.Models;
 using LachoneteApi.Repositories.Order;
 using LachoneteApi.Repositories.Product;
 using LachoneteApi.Repositories.User;
@@ -10,7 +9,7 @@ using LachoneteApi.Services.Order;
 using LachoneteApi.Services.Product;
 using LachoneteApi.Services.Token;
 using LachoneteApi.Services.User;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -50,15 +49,13 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddHttpContextAccessor();
+
 var chaveJwt = Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"]!);
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
+    options.MapInboundClaims = false;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,
@@ -66,11 +63,20 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(chaveJwt),
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+
+        RoleClaimType = "role"
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("admin", policy =>
+        policy.RequireAssertion(context =>
+            context.User.Claims.Any(c => c.Type == "role" && c.Value == "admin")
+        )
+    );
+});
 
 var app = builder.Build();
 
@@ -87,8 +93,6 @@ app.UseCors();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

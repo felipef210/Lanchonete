@@ -8,5 +8,6 @@ public interface IPedidoRepository
     Task<Pedido> GetPedidoById(Guid id);
     Task SalvarPedido();
     Task<List<Pedido>> ListarPedidos();
+    Task<List<Pedido>> ListarPedidosPorUsuario(Guid usuarioId);
     Task DeletarPedido(Guid id);
 }

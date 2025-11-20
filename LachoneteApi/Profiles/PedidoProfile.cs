@@ -12,7 +12,9 @@ public class PedidoProfile : Profile
             .ForMember(dest => dest.Itens, opt => opt.Ignore())
             .ForMember(dest => dest.Total, opt => opt.Ignore());
 
-        CreateMap<Pedido, PedidoDto>();
+        CreateMap<Pedido, PedidoDto>()
+            .ForMember(dest => dest.Cliente, opt => opt.MapFrom(src => src.Cliente.Nome));
+        
         CreateMap<ItemPedido, ItemPedidoDto>()
             .ForMember(det => det.ProdutoPreco, opt => opt.MapFrom(src => src.Produto.Preco))
             .ForMember(dest => dest.ProdutoNome, opt => opt.MapFrom(src => src.Produto.Nome));

@@ -18,6 +18,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
             ApplicationException => StatusCodes.Status400BadRequest,
             NaoEncontradoException => StatusCodes.Status404NotFound,
             ParametroInvalidoException => StatusCodes.Status400BadRequest,
+            ProibidoException => StatusCodes.Status403Forbidden,
             _ => StatusCodes.Status500InternalServerError
         };
  

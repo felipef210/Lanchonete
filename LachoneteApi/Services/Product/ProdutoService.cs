@@ -40,14 +40,7 @@ public class ProdutoService : IProdutoService
 
     public async Task<ProdutoDto> AdicionarProduto([FromBody] CriarProdutoDto criarProdutoDto)
     {
-        if (criarProdutoDto.Nome is null)
-            throw new ParametroInvalidoException("Insira o nome do produto!");
-
-        if (criarProdutoDto.Preco < 0)
-            throw new ParametroInvalidoException("O valor do produto deve ser positivo!");
-
-        if (criarProdutoDto.Descricao is null)
-            throw new ParametroInvalidoException("Insira a descrição do produto!");
+        ValidacoesDoProduto(criarProdutoDto.Nome, criarProdutoDto.Preco, criarProdutoDto.Descricao);
 
         var produto = _mapper.Map<Produto>(criarProdutoDto);
         await _produtoRepository.AdicionarProduto(produto);
@@ -57,21 +50,14 @@ public class ProdutoService : IProdutoService
 
     public async Task<ProdutoDto> EditarProduto(Guid id, [FromBody] EditarProdutoDto editarProdutoDto)
     {
-        if (editarProdutoDto.Nome is null)
-            throw new ParametroInvalidoException("Insira o nome do produto!");
-
-        if (editarProdutoDto.Preco < 0)
-            throw new ParametroInvalidoException("O valor do produto deve ser positivo!");
-
-        if (editarProdutoDto.Descricao is null)
-            throw new ParametroInvalidoException("Insira a descrição do produto!");
-
-        var produto = _produtoRepository.GetProdutoById(id);
+        var produto = await _produtoRepository.GetProdutoById(id);
 
         if (produto is null)
             throw new NaoEncontradoException("Produto não encontrado!");
 
-        await _mapper.Map(editarProdutoDto, produto);
+        ValidacoesDoProduto(editarProdutoDto.Nome, editarProdutoDto.Preco, editarProdutoDto.Descricao);
+        
+        _mapper.Map(editarProdutoDto, produto);
 
         await _produtoRepository.Salvar();
 
@@ -86,5 +72,17 @@ public class ProdutoService : IProdutoService
             throw new NaoEncontradoException("Produto não encontrado!");
 
         await _produtoRepository.DeletarProduto(id);
+    }
+
+    private void ValidacoesDoProduto(string nome, decimal preco, string descricao)
+    {
+        if (nome is null)
+            throw new ParametroInvalidoException("Insira o nome do produto!");
+
+        if (preco < 0)
+            throw new ParametroInvalidoException("O valor do produto deve ser positivo!");
+
+        if (descricao is null)
+            throw new ParametroInvalidoException("Insira a descrição do produto!");
     }
 }

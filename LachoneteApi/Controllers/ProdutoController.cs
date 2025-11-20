@@ -1,10 +1,14 @@
 using LachoneteApi.Dto.Product;
 using LachoneteApi.Services.Product;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LachoneteApi.Controllers;
 
 [Route("[controller]")]
+[ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "admin")]
 public class ProdutoController : Controller
 {
     private readonly IProdutoService _produtoService;
@@ -15,6 +19,7 @@ public class ProdutoController : Controller
     }
 
     [HttpGet("listar")]
+    [AllowAnonymous]
     public async Task<ActionResult<List<ProdutoDto>>> ListarProdutos()
     {
         var produtos = await _produtoService.ListarProdutos();
@@ -22,6 +27,7 @@ public class ProdutoController : Controller
     }
 
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<ActionResult<ProdutoDto>> GetProdutoById(Guid id)
     {
         var produto = await _produtoService.GetProdutoById(id);

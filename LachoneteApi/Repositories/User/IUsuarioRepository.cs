@@ -6,4 +6,5 @@ public interface IUsuarioRepository
 {
     Task Cadastrar(Usuario usuario);
     Task<Usuario> ExistingUser(string email);
+    Task<Usuario> GetUserById(Guid userId);
 }

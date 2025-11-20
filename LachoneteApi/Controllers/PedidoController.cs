@@ -1,11 +1,14 @@
 using LachoneteApi.Dto.Order;
 using LachoneteApi.Models;
 using LachoneteApi.Services.Order;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LachoneteApi.Controllers;
 
 [Route("[controller]")]
+[ApiController]
+[Authorize]
 public class PedidoController : Controller
 {
     private readonly IPedidoService _pedidoService;
@@ -16,16 +19,24 @@ public class PedidoController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<PedidoDto>> Cadastrar([FromBody] CriarPedidoDto criarPedidoDto)
+    public async Task<ActionResult<PedidoDto>> CriarPedido([FromBody] CriarPedidoDto criarPedidoDto)
     {
         var pedido = await _pedidoService.CriarPedido(criarPedidoDto);
         return Ok(pedido);
     }
 
     [HttpGet("listar")]
+    [Authorize(Policy = "admin")]
     public async Task<ActionResult<List<PedidoDto>>> ListarPedidos()
     {
         var pedidos = await _pedidoService.ListarPedidos();
+        return Ok(pedidos);
+    }
+
+    [HttpGet("listarPorUsuario")]
+    public async Task<ActionResult<List<PedidoDto>>> ListarPedidosPorUsuario()
+    {
+        var pedidos = await _pedidoService.ListarPedidosPorUsuario();
         return Ok(pedidos);
     }
 

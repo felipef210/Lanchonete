@@ -4,6 +4,7 @@ using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.Order;
 using LachoneteApi.Repositories.Product;
+using LachoneteApi.Repositories.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LachoneteApi.Services.Order;
@@ -12,57 +13,34 @@ public class PedidoService : IPedidoService
 {
     private readonly IPedidoRepository _pedidoRepository;
     private readonly IProdutoRepository _produtoRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
     private readonly IMapper _mapper;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public PedidoService(IPedidoRepository pedidoRepository, IMapper mapper, IProdutoRepository produtoRepository)
+    public PedidoService(IPedidoRepository pedidoRepository, IMapper mapper, IProdutoRepository produtoRepository, IHttpContextAccessor httpContextAccessor, IUsuarioRepository usuarioRepository)
     {
         _pedidoRepository = pedidoRepository;
         _mapper = mapper;
         _produtoRepository = produtoRepository;
+        _httpContextAccessor = httpContextAccessor;
+        _usuarioRepository = usuarioRepository;
     }
 
     public async Task<PedidoDto> CriarPedido([FromBody] CriarPedidoDto criarPedidoDto)
     {
-        // 1. Criar pedido vazio
+        var usuario = await ObterUsuarioLogado();
+
         var pedido = _mapper.Map<Pedido>(criarPedidoDto);
+        pedido.ClienteId = usuario.Id;
+        pedido.Cliente = await _usuarioRepository.GetUserById(usuario.Id);
 
         await _pedidoRepository.CriarPedido(pedido); 
-        // Agora pedido.Id existe
 
-        decimal total = 0;
-
-        // Verifica se há itens dentro do array.
-        if (criarPedidoDto.Itens.Count <= 0)
-            throw new ParametroInvalidoException("Insira itens no seu pedido!");
-
-        // 2. Adicionar itens
-        foreach (var itemDto in criarPedidoDto.Itens)
-        {
-            var produto = await _produtoRepository.GetProdutoById(itemDto.ProdutoId);
-
-            if (produto is null)
-                throw new NaoEncontradoException($"Produto não encontrado!");
-
-            var item = new ItemPedido
-            {
-                PedidoId = pedido.Id,
-                ProdutoId = produto.Id,
-                PrecoUnitario = produto.Preco,
-                Quantidade = itemDto.Quantidade,
-            };
-
-            total += produto.Preco * itemDto.Quantidade;
-            pedido.Itens.Add(item);
-        }
-
-        // 3. Atualizar total e status do pedido
-        pedido.Total = total;
+        pedido.Total = await AdicionarItensPedido(pedido, criarPedidoDto.Itens);
         pedido.Status = Enums.StatusPedidoEnum.EmPreparacao;
 
-        // Salvar itens
-       await _pedidoRepository.SalvarPedido();
+        await _pedidoRepository.SalvarPedido();
 
-        // 4. Mapear saída
         return _mapper.Map<PedidoDto>(pedido);
     }
 
@@ -74,12 +52,24 @@ public class PedidoService : IPedidoService
         return pedidosDto;
     }
 
+    public async Task<List<PedidoDto>> ListarPedidosPorUsuario()
+    {
+        var usuario = await ObterUsuarioLogado();
+        var pedidos = await _pedidoRepository.ListarPedidosPorUsuario(usuario.Id);
+        var pedidosDto = _mapper.Map<List<PedidoDto>>(pedidos);
+
+        return pedidosDto;
+    }
+
     public async Task<PedidoDto> GetPedidoById(Guid id)
     {
+        var usuario = await ObterUsuarioLogado();
         var pedido = await _pedidoRepository.GetPedidoById(id);
 
         if (pedido is null)
             throw new NaoEncontradoException($"Pedido não encontrado!");
+
+        ValidaPermissao(pedido, usuario);
 
         var pedidoDto = _mapper.Map<PedidoDto>(pedido);
 
@@ -88,44 +78,71 @@ public class PedidoService : IPedidoService
 
     public async Task DeletarPedido(Guid id)
     {
+        var usuario = await ObterUsuarioLogado();
         var pedido = await _pedidoRepository.GetPedidoById(id);
 
         if (pedido is null)
             throw new NaoEncontradoException("Pedido não encontrado");
+
+        ValidaPermissao(pedido, usuario);
 
         await _pedidoRepository.DeletarPedido(id);
     }
 
     public async Task<PedidoDto> AtualizarPedido(Guid id, [FromBody] AtualizarPedidoDto atualizarPedidoDto)
     {
-        // 1. Buscar pedido existente
+        var usuario = await ObterUsuarioLogado();
         var pedido = await _pedidoRepository.GetPedidoById(id);
 
         if (pedido is null)
             throw new NaoEncontradoException($"Pedido não encontrado!");
-        // 2. Atualizar dados simples
+
+        ValidaPermissao(pedido, usuario);
+
         _mapper.Map(atualizarPedidoDto, pedido);
 
-        // 3. Atualizar os itens (caso permitido)
         pedido.Itens.Clear();
-        decimal total = 0;
+        pedido.Total = await AdicionarItensPedido(pedido, atualizarPedidoDto.Itens);
 
-        // Verifica se há itens dentro do array.
-        if (atualizarPedidoDto.Itens.Count <= 0)
+        await _pedidoRepository.SalvarPedido();
+
+        return _mapper.Map<PedidoDto>(pedido);
+    }
+
+    private void ValidaPermissao(Pedido pedido, Usuario usuario)
+    {
+        if (pedido.ClienteId != usuario.Id && usuario.TipoUsuario != Enums.TipoUsuarioEnum.Administrador)
+            throw new ProibidoException("Função não autorizada!");
+    }
+
+    private async Task<Usuario> ObterUsuarioLogado()
+    {
+        var userIdString = _httpContextAccessor.HttpContext?.User?.FindFirst("id")?.Value;
+
+        if (!Guid.TryParse(userIdString, out Guid userId))
+            throw new ParametroInvalidoException("ID do usuário inválido!");
+
+        return await _usuarioRepository.GetUserById(userId)
+            ?? throw new NaoEncontradoException("Usuário não encontrado!");
+    }
+
+    private async Task<decimal> AdicionarItensPedido(Pedido pedido, List<CriarItemPedidoDto> itensDto)
+    {
+        if (itensDto.Count <= 0)
             throw new ParametroInvalidoException("Insira itens no seu pedido!");
 
-        foreach (var itemDto in atualizarPedidoDto.Itens)
-        {
-            var produto = await _produtoRepository.GetProdutoById(itemDto.ProdutoId);
+        decimal total = 0;
 
-            if (produto is null)
-                throw new NaoEncontradoException($"Produto não encontrado!");
+        foreach (var itemDto in itensDto)
+        {
+            var produto = await _produtoRepository.GetProdutoById(itemDto.ProdutoId)
+                ?? throw new NaoEncontradoException("Produto não encontrado!");
 
             var item = new ItemPedido
             {
                 PedidoId = pedido.Id,
                 ProdutoId = produto.Id,
-                PrecoUnitario = produto.Preco, // Preço congelado
+                PrecoUnitario = produto.Preco,
                 Quantidade = itemDto.Quantidade
             };
 
@@ -133,13 +150,6 @@ public class PedidoService : IPedidoService
             pedido.Itens.Add(item);
         }
 
-        // 4. Recalcular total
-        pedido.Total = total;
-
-        // 5. Salvar alterações
-        await _pedidoRepository.SalvarPedido();
-
-        // 6. Retornar DTO
-        return _mapper.Map<PedidoDto>(pedido);
+        return total;
     }
 }

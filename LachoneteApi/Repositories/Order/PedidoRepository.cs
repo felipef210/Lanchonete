@@ -28,6 +28,7 @@ public class PedidoRepository : IPedidoRepository
     public async Task<Pedido> GetPedidoById(Guid id)
     {
         return await _context.Pedidos
+            .Include(x => x.Cliente)
             .Include(p => p.Itens)
             .ThenInclude(i => i.Produto)
             .FirstOrDefaultAsync(p => p.Id == id);
@@ -36,8 +37,19 @@ public class PedidoRepository : IPedidoRepository
     public async Task<List<Pedido>> ListarPedidos()
     {
         return await _context.Pedidos
+            .Include(x => x.Cliente)
             .Include(p => p.Itens)
             .ThenInclude(i => i.Produto)
+            .ToListAsync();
+    }
+
+    public async Task<List<Pedido>> ListarPedidosPorUsuario(Guid usuarioId)
+    {
+        return await _context.Pedidos
+            .Include(x => x.Cliente)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Produto)
+            .Where(p => p.ClienteId == usuarioId)
             .ToListAsync();
     }
 
