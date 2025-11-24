@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace LachoneteApi.Migrations
 {
     /// <inheritdoc />
@@ -45,10 +47,11 @@ namespace LachoneteApi.Migrations
                 name: "Produtos",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
                     Preco = table.Column<decimal>(type: "numeric", nullable: false),
                     Descricao = table.Column<string>(type: "text", nullable: false),
+                    Imagem = table.Column<string>(type: "text", nullable: false),
                     CategoriaId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -109,6 +112,16 @@ namespace LachoneteApi.Migrations
                         principalTable: "Produtos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categorias",
+                columns: new[] { "Id", "Nome" },
+                values: new object[,]
+                {
+                    { 1, "Lanches" },
+                    { 2, "Sobremesas" },
+                    { 3, "Bebidas" }
                 });
 
             migrationBuilder.CreateIndex(

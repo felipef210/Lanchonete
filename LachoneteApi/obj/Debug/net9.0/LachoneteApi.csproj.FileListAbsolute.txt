@@ -139,3 +139,9 @@ D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\obj\Debug\net9.0\Lacho
 D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\obj\Debug\net9.0\LachoneteApi.genruntimeconfig.cache
 D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\obj\Debug\net9.0\ref\LachoneteApi.dll
 D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\Azure.Core.dll
+D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\Azure.Storage.Blobs.dll
+D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\Azure.Storage.Common.dll
+D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\System.ClientModel.dll
+D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\System.IO.Hashing.dll
+D:\Estudos Programação\projetos\Lanchonete\LachoneteApi\bin\Debug\net9.0\System.Memory.Data.dll

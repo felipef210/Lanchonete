@@ -5,6 +5,7 @@ using LachoneteApi.Repositories.Order;
 using LachoneteApi.Repositories.Product;
 using LachoneteApi.Repositories.User;
 using LachoneteApi.Services.Auth;
+using LachoneteApi.Services.Azure;
 using LachoneteApi.Services.Order;
 using LachoneteApi.Services.Product;
 using LachoneteApi.Services.Token;
@@ -47,6 +48,7 @@ builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddScoped<IFileStorage, AzureFileStorage>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpContextAccessor();

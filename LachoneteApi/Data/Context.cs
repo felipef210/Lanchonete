@@ -7,6 +7,17 @@ public class Context : DbContext
 {
     public Context(DbContextOptions<Context> options) : base(options) { }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Categoria>().HasData(
+            new Categoria { Id = 1, Nome = "Lanches" },
+            new Categoria { Id = 2, Nome = "Sobremesas" },
+            new Categoria { Id = 3, Nome = "Bebidas" }
+        );
+    }
+
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Categoria> Categorias { get; set; }
     public DbSet<Produto> Produtos { get; set; }

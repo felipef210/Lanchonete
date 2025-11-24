@@ -8,8 +8,12 @@ public class ProdutoProfile : Profile
 {
     public ProdutoProfile()
     {
-        CreateMap<CriarProdutoDto, Produto>();
+        CreateMap<CriarProdutoDto, Produto>()
+            .ForMember(dest => dest.Imagem, opt => opt.Ignore());
+            
         CreateMap<Produto, ProdutoDto>();
-        CreateMap<EditarProdutoDto, Produto>();
+
+        CreateMap<EditarProdutoDto, Produto>()
+            .ForMember(dest => dest.Imagem, opt => opt.Ignore());
     }
 }

@@ -3,6 +3,7 @@ using LachoneteApi.Dto.Product;
 using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.Product;
+using LachoneteApi.Services.Azure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LachoneteApi.Services.Product;
@@ -10,12 +11,15 @@ namespace LachoneteApi.Services.Product;
 public class ProdutoService : IProdutoService
 {
     private readonly IProdutoRepository _produtoRepository;
+    private readonly IFileStorage _fileStorage;
     private readonly IMapper _mapper;
+    private readonly string container = "produtos";
 
-    public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper)
+    public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper, IFileStorage fileStorage)
     {
         _produtoRepository = produtoRepository;
         _mapper = mapper;
+        _fileStorage = fileStorage;
     }
 
     public async Task<ProdutoDto> GetProdutoById(Guid id)
@@ -38,17 +42,24 @@ public class ProdutoService : IProdutoService
         return produtosDto;
     }
 
-    public async Task<ProdutoDto> AdicionarProduto([FromBody] CriarProdutoDto criarProdutoDto)
+    public async Task<ProdutoDto> AdicionarProduto([FromForm] CriarProdutoDto criarProdutoDto)
     {
         ValidacoesDoProduto(criarProdutoDto.Nome, criarProdutoDto.Preco, criarProdutoDto.Descricao);
 
         var produto = _mapper.Map<Produto>(criarProdutoDto);
+
+        if (criarProdutoDto.Imagem is not null)
+        {
+            var urlImagem = await _fileStorage.Store(container, criarProdutoDto.Imagem);
+            produto.Imagem = urlImagem;
+        }
+
         await _produtoRepository.AdicionarProduto(produto);
 
         return _mapper.Map<ProdutoDto>(produto);
     }
 
-    public async Task<ProdutoDto> EditarProduto(Guid id, [FromBody] EditarProdutoDto editarProdutoDto)
+    public async Task<ProdutoDto> EditarProduto(Guid id, [FromForm] EditarProdutoDto editarProdutoDto)
     {
         var produto = await _produtoRepository.GetProdutoById(id);
 
@@ -58,6 +69,12 @@ public class ProdutoService : IProdutoService
         ValidacoesDoProduto(editarProdutoDto.Nome, editarProdutoDto.Preco, editarProdutoDto.Descricao);
         
         _mapper.Map(editarProdutoDto, produto);
+
+        if (editarProdutoDto.Imagem is not null)
+        {
+            var urlImagem = await _fileStorage.Edit(produto.Imagem, container, editarProdutoDto.Imagem);
+            produto.Imagem = urlImagem;
+        }
 
         await _produtoRepository.Salvar();
 

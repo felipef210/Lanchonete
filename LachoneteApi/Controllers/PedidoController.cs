@@ -1,5 +1,4 @@
 using LachoneteApi.Dto.Order;
-using LachoneteApi.Models;
 using LachoneteApi.Services.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

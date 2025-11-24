@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LachoneteApi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20251117191010_CriandoBancoDeDados")]
+    [Migration("20251123160701_CriandoBancoDeDados")]
     partial class CriandoBancoDeDados
     {
         /// <inheritdoc />
@@ -40,6 +40,23 @@ namespace LachoneteApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categorias");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nome = "Lanches"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nome = "Sobremesas"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nome = "Bebidas"
+                        });
                 });
 
             modelBuilder.Entity("LachoneteApi.Models.ItemPedido", b =>
@@ -107,6 +124,10 @@ namespace LachoneteApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Imagem")
                         .IsRequired()
                         .HasColumnType("text");
 

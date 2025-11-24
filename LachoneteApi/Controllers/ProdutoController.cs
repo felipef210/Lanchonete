@@ -35,14 +35,14 @@ public class ProdutoController : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<ProdutoDto>> AdicionarProduto([FromBody] CriarProdutoDto criarProdutoDto)
+    public async Task<ActionResult<ProdutoDto>> AdicionarProduto([FromForm] CriarProdutoDto criarProdutoDto)
     {
         var produto = await _produtoService.AdicionarProduto(criarProdutoDto);
         return Ok(produto);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ProdutoDto>> EditarProduto(Guid id, [FromBody] EditarProdutoDto editarProdutoDto)
+    public async Task<ActionResult<ProdutoDto>> EditarProduto(Guid id, [FromForm] EditarProdutoDto editarProdutoDto)
     {
         var produto = await _produtoService.EditarProduto(id, editarProdutoDto);
         return Ok(produto);
