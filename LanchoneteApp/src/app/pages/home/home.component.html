@@ -1,0 +1,59 @@
+<app-container>
+  <section class="secao-1">
+    <span class="texto-primeira-compra">🎉 Entrega Grátis na Primeira Compra</span>
+    <h1>
+      Sua lanchonete favorita<br><span>a um clique de você</span>
+    </h1>
+
+    <p>Sabor irresistível, entrega rápida e ingredientes fresquinhos. Peça agora e receba em minutos!</p>
+
+    <nav>
+      <ul class="lista-navegacao">
+        <li><a class="btn-primario"><img src="delivery.png" alt="Ícone delivery"/> Fazer Pedido Agora</a></li>
+        <li><a class="btn-secundario">Ver Cardápio</a></li>
+      </ul>
+    </nav>
+  </section>
+
+  <section class="secao-2">
+    <h2>Por Que Escolher a Delícias Express?</h2>
+
+    <div class="area-cards">
+      <app-card-lanchonete srcImagem="relogio.png" altImagem="Ícone de relógio" titulo="Entrega Rápida" texto="Seu lanche quentinho em até 30 minutos"></app-card-lanchonete>
+      <app-card-lanchonete srcImagem="chapeu-cozinheiro.png" altImagem="Ícone de chapéu de cozinheiro" titulo="Ingredientes Frescos" texto="Selecionamos o melhor todos os dias"></app-card-lanchonete>
+      <app-card-lanchonete srcImagem="coracao.png" altImagem="Ícone de coração" titulo="Feito com Amor" texto="Cada pedido é preparado com carinho"></app-card-lanchonete>
+      <app-card-lanchonete srcImagem="escudo.png" altImagem="Ícone de escudo" titulo="Pagamento Seguro" texto="Suas informações sempre protegidas"></app-card-lanchonete>
+    </div>
+  </section>
+
+  <section class="secao-3">
+    <h2>O Que Nossos Clientes Dizem</h2>
+    <p>Avaliações reais de quem já provou</p>
+
+    <div class="area-cards">
+      <app-card-avaliacao
+        avaliacao="Melhor hambúrguer que já comi! Entrega super rápida e o lanche chegou quentinho."
+        cliente="Maria Silva"
+      ></app-card-avaliacao>
+
+      <app-card-avaliacao
+        avaliacao="Ingredientes de qualidade e preço justo. Virei cliente fiel!"
+        cliente="João Santos"
+      >
+      </app-card-avaliacao>
+
+      <app-card-avaliacao
+        avaliacao="A batata frita é simplesmente perfeita. Recomendo demais!"
+        cliente="Ana Costa"
+      >
+    </app-card-avaliacao>
+    </div>
+  </section>
+
+  <section class="secao-4">
+    <h2>Pronto para Satisfazer sua Fome?</h2>
+    <p>Cadastre-se agora e ganhe entrega grátias no primeiro pedido!</p>
+
+    <a>Criar Conta Grátis</a>
+  </section>
+</app-container>
