@@ -1,16 +1,16 @@
 <app-container>
   <section class="secao-1">
-    <span class="texto-primeira-compra">🎉 Entrega Grátis na Primeira Compra</span>
+    <span class="texto-primeira-compra">🎉 10% de Desconto no Primeiro Pedido</span>
     <h1>
-      Sua lanchonete favorita<br><span>a um clique de você</span>
+      Sua lanchonete favorita<br><span>agora informatizada</span>
     </h1>
 
-    <p>Sabor irresistível, entrega rápida e ingredientes fresquinhos. Peça agora e receba em minutos!</p>
+    <p>Sabor irresistível, preparo rápido e ingredientes fresquinhos. Peça agora e coma em minutos!</p>
 
     <nav>
       <ul class="lista-navegacao">
-        <li><a class="btn-primario"><img src="delivery.png" alt="Ícone delivery"/> Fazer Pedido Agora</a></li>
-        <li><a class="btn-secundario">Ver Cardápio</a></li>
+        <li><a class="btn-primario" routerLink="/login"><img src="logo.png" alt="Ícone delivery"/> Fazer Pedido Agora</a></li>
+        <li><a class="btn-secundario" routerLink="/cardapio">Ver Cardápio</a></li>
       </ul>
     </nav>
   </section>
@@ -19,7 +19,7 @@
     <h2>Por Que Escolher a Delícias Express?</h2>
 
     <div class="area-cards">
-      <app-card-lanchonete srcImagem="relogio.png" altImagem="Ícone de relógio" titulo="Entrega Rápida" texto="Seu lanche quentinho em até 30 minutos"></app-card-lanchonete>
+      <app-card-lanchonete srcImagem="relogio.png" altImagem="Ícone de relógio" titulo="Preparo Rápido" texto="Seu lanche quentinho em até 15 minutos"></app-card-lanchonete>
       <app-card-lanchonete srcImagem="chapeu-cozinheiro.png" altImagem="Ícone de chapéu de cozinheiro" titulo="Ingredientes Frescos" texto="Selecionamos o melhor todos os dias"></app-card-lanchonete>
       <app-card-lanchonete srcImagem="coracao.png" altImagem="Ícone de coração" titulo="Feito com Amor" texto="Cada pedido é preparado com carinho"></app-card-lanchonete>
       <app-card-lanchonete srcImagem="escudo.png" altImagem="Ícone de escudo" titulo="Pagamento Seguro" texto="Suas informações sempre protegidas"></app-card-lanchonete>
@@ -32,7 +32,7 @@
 
     <div class="area-cards">
       <app-card-avaliacao
-        avaliacao="Melhor hambúrguer que já comi! Entrega super rápida e o lanche chegou quentinho."
+        avaliacao="Melhor hambúrguer que já comi! Preparação super rápida e o lanche chegou quentinho."
         cliente="Maria Silva"
       ></app-card-avaliacao>
 

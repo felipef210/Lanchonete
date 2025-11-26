@@ -1,0 +1,29 @@
+<form class="formulario" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <img class="logo" src="logo.png" alt="Logo da página" routerLink="/"/>
+  <h3 class="titulo">{{ titulo() }}</h3>
+  <span class="legenda">{{ legenda() }}</span>
+
+  <fieldset class="campos">
+    @if (tela() === 'cadastro') {
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" name="nome" placeholder="Seu nome" formControlName="nome"/>
+
+      <label for="email">Telefone</label>
+      <input type="tel" id="telefone" name="telefone" placeholder="(XX) 9XXXX-XXXX" formControlName="telefone"/>
+    }
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="seuemail@email.com" formControlName="email"/>
+
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" name="senha" placeholder="********" formControlName="senha"/>
+
+    @if (tela() === 'cadastro') {
+      <label for="confirmarSenha">Confirmar Senha</label>
+      <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="********" formControlName="confirmarSenha"/>
+    }
+  </fieldset>
+
+  <button class="btn" type="submit" [disabled]="form.invalid">{{ textoBotao() }}</button>
+  <p class="redirecionamento">{{ textoRedirecionamento() }} <a [routerLink]="rota()">{{ textoLink() }}</a></p>
+</form>

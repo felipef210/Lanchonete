@@ -1,7 +1,4 @@
 .cabecalho {
-  width: 100%;
-  position: fixed;
-  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +17,7 @@
     cursor: pointer;
 
     .area-imagem {
-      background-color: #F3702C;
+      background-color: var(--fonte-laranja);
       padding: .5rem;
       border-radius: .6rem;
       width: 26px;
@@ -45,14 +42,14 @@
         }
 
         .btn-primario {
-          background-color: #F3702C;
-          color: white;
+          background-color: var(--fonte-laranja);
+          color: var(--fonte-branca);
           padding: .5rem 1rem;
           border-radius: .5rem;
           transition: .5s;
 
           &:hover {
-            box-shadow: 0px 0px 15px #F3702C;
+            box-shadow: 0px 0px 15px var(--fonte-laranja);
           }
         }
 
@@ -60,10 +57,11 @@
           padding: .5rem 1rem;
           border-radius: .5rem;
           transition: .5s;
+          color: black;
 
           &:hover {
-            background-color: #F3702C;
-            color: white;
+            background-color: var(--fonte-laranja);
+            color: var(--fonte-branca);
           }
         }
       }

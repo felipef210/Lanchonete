@@ -1,0 +1,120 @@
+.formulario {
+  text-align: center;
+  background-color: white;
+  width: 400px;
+  padding: 2rem;
+  border-radius: .8rem;
+  box-shadow: 0px 0px 10px rgb(163, 163, 163);
+
+  .logo {
+    background-color: var(--fonte-laranja);
+    padding: .7rem;
+    border-radius: .9rem;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+  }
+
+  .titulo {
+    font-size: 1.6rem;
+    margin-bottom: .5rem;
+  }
+
+  .legenda {
+    color: var(--fonte-cinza);
+    font-size: 1.05rem;
+  }
+
+  .campos {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 1.5rem 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+
+    input {
+      width: 100%;
+      margin-bottom: .5rem;
+      background-color: #FBFAF9;
+      border: 1px solid rgb(165, 164, 164);
+      border-radius: .6rem;
+      padding: .7rem 1rem;
+      box-sizing: border-box;
+      font-size: 17px;
+
+      &:focus {
+        border: 1px solid var(--fonte-laranja);
+        outline: 2px solid var(--fonte-laranja);
+      }
+    }
+  }
+
+  .btn {
+    width: 100%;
+    background-color: var(--fonte-laranja);
+    color: var(--fonte-branca);
+    padding: .8rem;
+    border-radius: .7rem;
+    border: none;
+    font-weight: 500;
+    font-size: 17px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+      background-color: gray;
+    }
+  }
+
+  .redirecionamento {
+    font-size: 16px;
+    color: var(--fonte-cinza);
+
+    a {
+      color: var(--fonte-laranja);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline 2px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .titulo {
+    font-size: 1.4rem !important;
+  }
+
+  .legenda {
+    font-size: .95rem !important;
+  }
+
+  .formulario {
+    width: 250px;
+    padding: 1.5rem;
+
+    .campos {
+      font-size: 14px;
+
+      input {
+        font-size: 14px;
+      }
+    }
+
+    .btn {
+      font-size: 14px;
+    }
+
+    .redirecionamento {
+      font-size: 14px;
+    }
+  }
+}

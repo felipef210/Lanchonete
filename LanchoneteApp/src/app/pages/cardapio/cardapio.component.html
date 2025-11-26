@@ -1,0 +1,26 @@
+<app-container class="pagina">
+  <section class="container">
+    <ul>
+      @for (item of itens; track $index) {
+        <li (click)="selecionarItem($index)" [class.selecionado]="$index === selectedIndex">{{ item }}</li>
+      }
+    </ul>
+
+    <div class="itens">
+      @if (produtos.length <= 0) {
+        <p class="semItens">
+          Sem itens para exibir
+        </p>
+      }
+
+      @for (produto of produtos; track $index) {
+        <app-produto
+          [imagem]="produto.imagem"
+          [nome]="produto.nome"
+          [descricao]="produto.descricao"
+          [preco]="produto.preco"
+          ></app-produto>
+      }
+    </div>
+  </section>
+</app-container>

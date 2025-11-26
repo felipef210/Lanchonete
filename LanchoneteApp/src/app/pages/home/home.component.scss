@@ -8,8 +8,8 @@
   gap: 30px;
 
   .texto-primeira-compra {
-    background-color: #F3702C;
-    color: white;
+    background-color: var(--fonte-laranja);
+    color: var(--fonte-branca);
     font-weight: 600;
     font-size: 1.1rem;
     padding: .5rem 1rem;
@@ -29,7 +29,7 @@
     font-weight: 700;
 
     span {
-      color: #F3702C;
+      color: var(--fonte-laranja);
     }
   }
 
@@ -59,8 +59,8 @@
         }
 
         .btn-primario {
-          background-color: #F3702C;
-          color: white;
+          background-color: var(--fonte-laranja);
+          color: var(--fonte-branca);
           transition: .3s;
           display: flex;
           align-items: center;
@@ -72,7 +72,7 @@
           }
 
           &:hover {
-            box-shadow: 0px 0px 10px #F3702C;
+            box-shadow: 0px 0px 10px var(--fonte-laranja);
           }
         }
 
@@ -81,11 +81,12 @@
           background-color: #FBFAF9;
           transition: .3s;
           display: inline-block;
+          color: black;
 
           &:hover {
             transform: translateY(-5px);
-            background-color: #F3702C;
-            color: white;
+            background-color: var(--fonte-laranja);
+            color: var(--fonte-branca);
           }
         }
       }
@@ -140,8 +141,8 @@
 .secao-4 {
   padding: 4rem 1.5rem;
   text-align: center;
-  background-color: #F3702C;
-  color: white;
+  background-color: var(--fonte-laranja);
+  color: var(--fonte-branca);
   box-sizing: border-box;
 
   h2 {
