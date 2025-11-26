@@ -22,7 +22,7 @@ public class UsuarioController : Controller
     public async Task<ActionResult> Cadastrar([FromBody] CadastroDto cadastroDto)
     {
         await _usuarioService.Cadastrar(cadastroDto);
-        return Ok("Cadastro efetuado com sucesso");
+        return Ok(new { message = "Cadastro efetuado com sucesso" });
     }
 
     [HttpPost("login")]

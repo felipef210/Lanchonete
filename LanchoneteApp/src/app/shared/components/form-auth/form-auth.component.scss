@@ -29,7 +29,7 @@
   .campos {
     font-size: 17px;
     font-weight: 500;
-    margin: 1.5rem 0;
+    margin-top: 1.5rem;
     border: none;
     display: flex;
     flex-direction: column;
@@ -51,6 +51,12 @@
         outline: 2px solid var(--fonte-laranja);
       }
     }
+  }
+
+  .mensagem-erro {
+    text-align: center;
+    color: red;
+    margin-bottom: 1rem;
   }
 
   .btn {

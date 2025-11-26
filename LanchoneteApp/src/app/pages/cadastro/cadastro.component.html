@@ -5,7 +5,9 @@
     [textoRedirecionamento]="textoRedirecionamento"
     [rota]="rota"
     [textoLink]="textoLink"
+    [mensagemErro]="mensagemErro"
     textoBotao="Criar Conta"
     tela="cadastro"
+    (cadastroSubmit)="cadastrar($event)"
   ></app-form-auth>
 </section>

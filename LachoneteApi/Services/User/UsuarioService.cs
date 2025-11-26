@@ -44,7 +44,7 @@ public class UsuarioService : IUsuarioService
         if (cadastroDto.Telefone is null)
             throw new ParametroInvalidoException("O número de telefone é obrigatório!");
 
-        if (IsPhoneNumberValid(cadastroDto.Telefone))
+        if (!IsPhoneNumberValid(cadastroDto.Telefone))
             throw new ParametroInvalidoException("O número de telefone é inválido!");
     
         var usuario = _mapper.Map<Usuario>(cadastroDto);
@@ -89,7 +89,7 @@ public class UsuarioService : IUsuarioService
 
     private bool IsPhoneNumberValid(string phoneNumber)
     {
-        Regex regex = new Regex(@"^\(?[1-9]{2}\)?\s?[6-9]\d{4}-?\d{4}$");
+        Regex regex = new Regex(@"^\(?[1-9]{2}\)?\s?(?:[2-5]\d{3}|9\d{4})-?\d{4}$");
         return regex.IsMatch(phoneNumber);
     }
 

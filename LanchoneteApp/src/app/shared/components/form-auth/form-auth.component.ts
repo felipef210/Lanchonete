@@ -1,11 +1,14 @@
-import { Component, inject, Input, input, InputSignal, OnInit } from '@angular/core';
+import { Component, inject, input, InputSignal, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from "@angular/router";
 import { isMatchValidator } from '../../validators/isMatchValidator';
+import { CadastroDto } from '../../models/cadastroDto';
+import { LoginDto } from '../../models/loginDto';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-form-auth',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './form-auth.component.html',
   styleUrl: './form-auth.component.scss'
 })
@@ -17,6 +20,10 @@ export class FormAuthComponent implements OnInit {
   rota: InputSignal<string> = input.required<string>();
   textoLink: InputSignal<string> = input.required<string>();
   textoBotao: InputSignal<string> = input.required<string>();
+  mensagemErro: InputSignal<string> = input.required<string>();
+
+  cadastroSubmit: OutputEmitterRef<CadastroDto> = output<CadastroDto>();
+  loginSubmit: OutputEmitterRef<LoginDto> = output<LoginDto>();
 
   passwordRegex: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*\\-_])[A-Za-z\\d!@#$%^&*\\-_]{8,}$';
   phoneRegex: string = '^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$';
@@ -49,11 +56,23 @@ export class FormAuthComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      console.log(this.form.value);
+    const email = this.form.get('email')?.value?.toLowerCase() ?? '';
+
+    if(this.tela() === 'cadastro') {
+      const formValue: CadastroDto = {
+        ...this.form.value,
+        email
+      };
+
+      this.cadastroSubmit.emit(formValue);
       return;
     }
 
-    console.log('Erro');
+    const formValue: LoginDto = {
+      email: email,
+      senha: this.form.get('senha')?.value
+    };
+
+    this.loginSubmit.emit(formValue);
   }
 }

@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormAuthComponent } from "../../shared/components/form-auth/form-auth.component";
+import { CadastroDto } from '../../shared/models/cadastroDto';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -13,4 +16,20 @@ export class CadastroComponent {
   textoRedirecionamento: string = 'Já tem uma conta?'
   rota: string = '/login';
   textoLink: string = 'Faça login';
+  mensagemErro!: string;
+
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
+
+  cadastrar(usuario: CadastroDto) {
+    this.authService.cadastrar(usuario).subscribe({
+      next: (res) => {
+        this.router.navigate(['/login']);
+      },
+
+      error: err => {
+        this.mensagemErro = err.error.detail;
+      }
+    });
+  }
 }

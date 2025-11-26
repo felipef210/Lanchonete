@@ -9,7 +9,7 @@
       <input type="text" id="nome" name="nome" placeholder="Seu nome" formControlName="nome"/>
 
       <label for="email">Telefone</label>
-      <input type="tel" id="telefone" name="telefone" placeholder="(XX) 9XXXX-XXXX" formControlName="telefone"/>
+      <input type="tel" id="telefone" name="telefone" mask="(00) 0000-0000||(00) 00000-0000"  placeholder="(XX) 9XXXX-XXXX" formControlName="telefone"/>
     }
 
     <label for="email">Email</label>
@@ -23,6 +23,8 @@
       <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="********" formControlName="confirmarSenha"/>
     }
   </fieldset>
+
+  <p class="mensagem-erro">{{ mensagemErro() }}</p>
 
   <button class="btn" type="submit" [disabled]="form.invalid">{{ textoBotao() }}</button>
   <p class="redirecionamento">{{ textoRedirecionamento() }} <a [routerLink]="rota()">{{ textoLink() }}</a></p>
