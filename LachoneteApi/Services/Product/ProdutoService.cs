@@ -42,6 +42,19 @@ public class ProdutoService : IProdutoService
         return produtosDto;
     }
 
+    public async Task<List<ProdutoDto>> FiltrarPorCategoria(int categoria)
+    {
+        var produtos = await _produtoRepository.ListarProdutos();
+        var query = produtos.AsQueryable();
+
+        if (categoria > 0 && categoria < 4)
+            query = query.Where(p => p.CategoriaId == categoria);
+
+        var produtosFiltrados = _mapper.Map<List<ProdutoDto>>(query);
+
+        return produtosFiltrados;
+    }
+
     public async Task<ProdutoDto> AdicionarProduto([FromForm] CriarProdutoDto criarProdutoDto)
     {
         ValidacoesDoProduto(criarProdutoDto.Nome, criarProdutoDto.Preco, criarProdutoDto.Descricao);

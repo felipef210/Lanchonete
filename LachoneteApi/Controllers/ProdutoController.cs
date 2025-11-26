@@ -34,6 +34,14 @@ public class ProdutoController : Controller
         return Ok(produto);
     }
 
+    [HttpGet("filtro")]
+    [AllowAnonymous]
+    public async Task<ActionResult<List<ProdutoDto>>> FiltrarPorCategoria([FromQuery] int categoria)
+    {
+        var produtosFiltrados = await _produtoService.FiltrarPorCategoria(categoria);
+        return Ok(produtosFiltrados);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ProdutoDto>> AdicionarProduto([FromForm] CriarProdutoDto criarProdutoDto)
     {
