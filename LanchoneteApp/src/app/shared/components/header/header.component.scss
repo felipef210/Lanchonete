@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem .8rem;
+  padding: 1rem;
   box-sizing: border-box;
   background-color: #fefefeb6;
   backdrop-filter: blur(10px);
@@ -30,6 +30,77 @@
   }
 
   .navegacao {
+    .autenticado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+
+      span {
+        color: var(--fonte-cinza);
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+      }
+
+      .link-admin, .link-carrinho {
+        width: 24px;
+        height: 24px;
+        padding: .5rem;
+        border-radius: .5rem;
+        display: block;
+        background-size: 22px;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: .3s;
+
+        &:hover {
+          background-color: var(--fonte-laranja);
+        }
+      }
+
+      .link-admin {
+        background-image: url('../../../../../public/icone-admin.png');
+
+        &:hover {
+          background-image: url('../../../../../public/icone-admin-branco.png');
+        }
+      }
+
+      .link-carrinho {
+        background-image: url('../../../../../public/carrinho.png');
+
+        &:hover {
+          background-image: url('../../../../../public/carrinho-branco.png');
+        }
+      }
+
+      button {
+        width: 24px;
+        height: 24px;
+        padding: 1.2rem;
+        border-radius: .5rem;
+        display: block;
+        background-color: transparent;
+        border: none;
+        background-image: url('../../../../../public/logout.png');
+        background-size: 22px;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: .3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--fonte-laranja);
+          background-image: url('../../../../../public/logout-branco.png');
+        }
+      }
+    }
+
+
+
     ul {
       list-style: none;
       display: flex;

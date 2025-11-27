@@ -5,9 +5,22 @@
   </div>
 
   <nav class="navegacao">
-    <ul>
-      <li><a class="btn-secundario" routerLink="/login">Entrar</a></li>
-      <li><a class="btn-primario" routerLink="/cadastro">Cadastrar</a></li>
-    </ul>
+    @if (authService.isLoggedIn()) {
+      <ul class="autenticado">
+        <li><span>Olá, {{ authService.getNome().split(' ')[0] }}</span></li>
+        @if (authService.getRole() === 'admin') {
+          <li><a class="link-admin"></a></li>
+        }
+        <li><a class="link-carrinho"></a></li>
+        <li><button (click)="logout()"></button></li>
+      </ul>
+    }
+
+    @else {
+      <ul>
+        <li><a class="btn-secundario" routerLink="/login">Entrar</a></li>
+        <li><a class="btn-primario" routerLink="/cadastro">Cadastrar</a></li>
+      </ul>
+    }
   </nav>
 </header>
