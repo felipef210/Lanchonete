@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormAuthComponent } from "../../shared/components/form-auth/form-auth.component";
-import { LoginDto } from '../../shared/models/loginDto';
+import { LoginDto } from '../../shared/models/usuario.models';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 

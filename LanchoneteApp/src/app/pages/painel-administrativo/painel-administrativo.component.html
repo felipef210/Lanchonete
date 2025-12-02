@@ -1,0 +1,97 @@
+<body class="pagina">
+  <header>
+    <app-header></app-header>
+  </header>
+
+  <main class="container">
+    <h1 class="titulo">Painel Administrativo</h1>
+
+    <section class="botoes">
+      <button class="btn-produtos" (click)="selecionarDisplay('produtos')" [class.selected]="botaoSelecionado === 'produtos'">
+        Produtos
+      </button>
+
+      <button class="btn-pedidos" (click)="selecionarDisplay('pedidos')" [class.selected]="botaoSelecionado === 'pedidos'">
+        Pedidos
+      </button>
+    </section>
+
+    @if (botaoSelecionado === 'produtos') {
+      <section class="secao-produtos">
+        <app-form-produto (adicionarProduto)="adicionarProduto($event)" (editarProduto)="editarProduto($event)" [produto]="produtoSelecionado"></app-form-produto>
+
+        <div class="lista-produtos">
+          <h2>Lista de Produtos</h2>
+          @let produtos = produto$ | async;
+          <span>
+            {{ produtos?.length }}
+            {{ produtos?.length === 1 ? 'produto' : 'produtos' }}
+            {{ produtos?.length === 1 ? 'cadastrado' : 'cadastrados' }}
+          </span>
+
+          <div class="produtos">
+            @if (produto$ | async) {
+              @let produtos = produto$ | async;
+
+              @for (produto of produtos; track $index) {
+                <app-card-inline-produto (editarProduto)="selecionarProduto($event)" (deletarProduto)="deletarProduto($event)" [produto]="produto"></app-card-inline-produto>
+              }
+            }
+          </div>
+        </div>
+      </section>
+    }
+
+    @else if (botaoSelecionado === 'pedidos') {
+      <div class="tabela-pedidos">
+        <h2>Pedidos</h2>
+        <span class="subtitulo">1 pedidos registrados</span>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Itens</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @if (pedido$ | async) {
+              @let pedidos = pedido$ | async;
+
+              @for (pedido of pedidos; track $index) {
+                <tr>
+                  <td>#{{ pedido.id.split('-')[0] }}</td>
+                  <td>{{ pedido.cliente }}</td>
+                  <td>{{ getQuantidadeTotal(pedido) }} {{ getQuantidadeTotal(pedido) === 1 ? 'item' : 'itens' }}</td>
+                  <td>{{ pedido.total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+
+                  <td>
+                    <span class="status" [ngClass]="classeStatus(pedido.status)">{{ statusMap[pedido.status] }}</span>
+                  </td>
+
+                  <td>{{ formatarData(pedido.dataHora) }}</td>
+
+                  <td class="acoes">
+                    <select>
+                      @for (status of statusMap| keyvalue; track status.key) {
+                        <option [value]="status.key" [selected]="pedido.status === +status.key">{{ status.value }}</option>
+                      }
+                    </select>
+
+                    <button class="btn-delete" (click)="deletarPedido(pedido.id)"></button>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </main>
+</body>

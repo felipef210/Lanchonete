@@ -1,0 +1,18 @@
+<section class="card-inline">
+  <div class="div-esquerda">
+    <img [src]="produto().imagem" alt="Imagem do produto">
+
+    <div>
+      <h3 class="nome-produto">{{ produto().nome }}</h3>
+      <span class="preco-produto">
+        {{ produto().preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        - {{ categoriaMap[produto().categoriaId] }}
+      </span>
+    </div>
+  </div>
+
+  <div class="div-direita">
+    <button class="btn-editar" (click)="onEditar()"></button>
+    <button class="btn-excluir" (click)="deletar()"></button>
+  </div>
+</section>

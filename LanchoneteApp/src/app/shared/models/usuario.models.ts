@@ -5,3 +5,8 @@ export interface CadastroDto {
   senha: string;
   confirmarSenha: string;
 }
+
+export interface LoginDto {
+  email: string;
+  senha: string;
+}

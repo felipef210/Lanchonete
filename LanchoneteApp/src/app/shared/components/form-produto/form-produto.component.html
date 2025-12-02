@@ -1,0 +1,36 @@
+<form class="formulario" [formGroup]="form" (submit)="onSubmit()">
+  <h2>{{ produto() !== undefined ? 'Editar Produto' : '+ Adicionar Produto' }}</h2>
+  <span>Preencha os dados do produto</span>
+
+  <label for="nome">Nome *</label>
+  <input placeholder="Ex: X-Burguer" type="text" id="nome" name="nome" formControlName="nome"/>
+
+  <label for="descricao">Descrição *</label>
+  <textarea placeholder="Descreva o produto" id="descricao" name="descricao" formControlName="descricao"></textarea>
+
+  <label for="preco">Preço *</label>
+  <input
+    placeholder="R$ 00,00"
+    mask="separator.2"
+    prefix="R$ "
+    thousandSeparator="."
+    decimalMarker=","
+    type="text"
+    id="preco"
+    name="preco"
+    formControlName="preco"
+  />
+
+  <label for="imagem">Imagem *</label>
+  <input type="file" id="imagem" name="imagem" (change)="onFileSelected($event)"/>
+
+  <label for="nome">Categoria *</label>
+  <select formControlName="categoria">
+    <option value="null" disabled selected>Selecione uma categoria...</option>
+    <option value="1">Lanches</option>
+    <option value="2">Sobremesas</option>
+    <option value="3">Bebidas</option>
+  </select>
+
+  <button type="submit">{{ produto() !== undefined ? 'Editar' : 'Adicionar' }}</button>
+</form>

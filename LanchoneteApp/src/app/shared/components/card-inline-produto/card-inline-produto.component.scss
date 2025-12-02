@@ -1,0 +1,77 @@
+.card-inline {
+  background-color: #FBF9F6;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: .5rem;
+  box-sizing: border-box;
+  transition: .2s;
+
+  &:hover {
+    background-color: #F8F3ED;
+  }
+
+  .div-esquerda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      width: 50px;
+    }
+
+    div {
+      .nome-produto {
+        font-size: 1.1rem;
+      }
+
+      .preco-produto {
+
+        color: var(--fonte-cinza);
+        font-size: .95rem;
+
+      }
+    }
+  }
+
+  .div-direita {
+    display: flex;
+    gap: 10px;
+
+    .btn-editar, .btn-excluir {
+      width: 32px;
+      height: 32px;
+      border-radius: .3rem;
+      border: none;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-size: 18px;
+      background-position: center;
+      cursor: pointer;
+      transition: .3s;
+
+      &:hover {
+        background-color: var(--fonte-laranja);
+      }
+    }
+
+    .btn-editar {
+      background-image: url('../../../../../public/editar.png');
+
+      &:hover {
+        background-image: url('../../../../../public/editar-branco.png');
+      }
+
+    }
+
+    .btn-excluir {
+      background-image: url('../../../../../public/deletar.png');
+
+      &:hover {
+        background-image: url('../../../../../public/deletar-branco.png');
+      }
+    }
+  }
+}

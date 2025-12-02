@@ -1,0 +1,15 @@
+<body class="pagina">
+  <header>
+    <app-header></app-header>
+  </header>
+
+  <main class="container">
+    <h2 class="titulo">Meus Pedidos</h2>
+    <p class="subtitulo">Acompanhe o status dos seus pedidos</p>
+
+
+    @for (pedido of pedidos; track $index) {
+      <app-card-inline-pedido [pedido]="pedido"></app-card-inline-pedido>
+    }
+  </main>
+</body>

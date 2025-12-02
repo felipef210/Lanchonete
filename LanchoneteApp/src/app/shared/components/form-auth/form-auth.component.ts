@@ -2,8 +2,7 @@ import { Component, inject, input, InputSignal, OnInit, output, OutputEmitterRef
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from "@angular/router";
 import { isMatchValidator } from '../../validators/isMatchValidator';
-import { CadastroDto } from '../../models/cadastroDto';
-import { LoginDto } from '../../models/loginDto';
+import { CadastroDto, LoginDto } from '../../models/usuario.models';
 import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
@@ -28,7 +27,7 @@ export class FormAuthComponent implements OnInit {
   passwordRegex: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*\\-_])[A-Za-z\\d!@#$%^&*\\-_]{8,}$';
   phoneRegex: string = '^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$';
 
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
   form!: FormGroup;
 

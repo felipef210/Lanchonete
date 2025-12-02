@@ -1,0 +1,75 @@
+.pedido-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border: 1px solid #f1ede8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+  .pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1d1d1d;
+    }
+
+    .data {
+      font-size: 14px;
+      color: #8a837a;
+    }
+
+    .status {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      text-transform: capitalize;
+
+      &.Aberto {
+        background: #4c8bf5;
+      }
+
+      &.EmPreparacao {
+        background-color: var(--fonte-laranja);
+      }
+
+      &.Finalizado {
+        background: #5a6477;
+      }
+    }
+  }
+
+  .pedido-itens {
+    margin: 20px 0;
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      color: #1d1d1d;
+
+      .preco {
+        color: #8a837a;
+      }
+    }
+  }
+
+  .pedido-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+
+    strong {
+      font-weight: 700;
+      color: #000;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<div class="pedido-card">
+  <div class="pedido-header">
+    <div>
+      <h3>Pedido #{{ pedido().id.slice(-8) }}</h3>
+      <span class="data">
+        {{ pedido().dataHora | date:'dd/MM/yyyy, HH:mm:ss' }}
+      </span>
+    </div>
+
+    <div class="status" [ngClass]="StatusPedidoEnum[pedido().status]">
+      {{ statusMap[pedido().status] }}
+    </div>
+  </div>
+
+  <div class="pedido-itens">
+    @for (item of pedido().itens; track $index) {
+      <div class="item">
+        <span>{{ item.quantidade }}x {{ item.produtoNome }}</span>
+        <span class="preco">R$ {{ item.produtoPreco | number:'1.2-2' }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="pedido-total">
+    <span>Total</span>
+    <strong>R$ {{ pedido().total | number:'1.2-2' }}</strong>
+  </div>
+</div>

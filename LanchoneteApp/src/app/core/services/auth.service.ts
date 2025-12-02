@@ -3,14 +3,14 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { Observable, tap } from 'rxjs';
-import { CadastroDto } from '../../shared/models/cadastroDto';
-import { LoginDto } from '../../shared/models/loginDto';
+import { CadastroDto, LoginDto } from '../../shared/models/usuario.models';
 import { jwtDecode } from 'jwt-decode';
 
 interface CustomJwtPayload {
   id: string;
   nome: string;
   role: string;
+  exp: string;
 }
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AuthService {
   private readonly router: Router = inject(Router);
   private readonly url: string = environment.apiUrl + '/Usuario';
   private readonly keyToken: string = 'token';
-  private readonly keyExpiration = 'token-expiration;'
+  private readonly keyExpiration = 'token-expiration';
 
   loggedIn = signal(!!localStorage.getItem(this.keyToken));
 
@@ -55,6 +55,17 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return this.loggedIn();
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getJWTToken();
+    if (!token) return true;
+
+    const payload = jwtDecode<CustomJwtPayload>(token);
+
+    const expiration = Number(payload.exp) * 1000;
+
+    return Date.now() > expiration;
   }
 
   logout() {

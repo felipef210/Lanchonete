@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ContainerComponent } from "../../layout/container/container.component";
 import { ProdutoComponent } from "../../shared/components/produto/produto.component";
 import { ProdutosService } from '../../core/services/produtos.service';
-import { ProdutoDto } from '../../shared/models/produtoDto';
+import { ProdutoDto } from '../../shared/models/produto.models';
 
 @Component({
   selector: 'app-cardapio',
