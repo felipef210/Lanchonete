@@ -57,10 +57,12 @@ export class FormProdutoComponent implements OnInit, OnChanges {
 
       if (!this.produto()) {
         this.adicionarProduto.emit(dto);
+        this.form.reset();
         return;
       }
 
       this.editarProduto.emit(dto as EditarProdutoDto);
+      this.form.reset();
     }
   }
 

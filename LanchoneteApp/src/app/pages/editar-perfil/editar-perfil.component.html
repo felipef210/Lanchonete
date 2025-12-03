@@ -1,1 +1,20 @@
-<p>editar-perfil works!</p>
+<app-pagina-sem-footer>
+  <app-form-auth
+    [titulo]="titulo"
+    [legenda]="legenda"
+    [textoRedirecionamento]="textoRedirecionamento"
+    [rota]="rota"
+    [textoLink]="textoLink"
+    [mensagemErro]="mensagemErro"
+    [usuario]="perfil"
+    tela="editar-perfil"
+    textoBotao="Salvar alterações"
+    (editarPerfilSubmit)="editarPerfil($event)"
+    (openDialog)="abrirModal()"
+  >
+  </app-form-auth>
+</app-pagina-sem-footer>
+
+@if (modalAberto) {
+  <app-alterar-senha (fecharModal)="fecharModal()"></app-alterar-senha>
+}

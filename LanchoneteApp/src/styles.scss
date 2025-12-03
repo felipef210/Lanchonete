@@ -1,8 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
-
+:root {
+  @include mat.snack-bar-overrides((
+    container-color: rgb(0, 160, 0),
+    supporting-text-color: white,
+  ));
+}
 
 * {
   font-family: "DM Sans", sans-serif;
@@ -12,4 +18,18 @@
   --fonte-cinza: #1c181691;
   --fonte-branca: white;
   --fonte-laranja: #F3702C;
+}
+
+.no-scroll {
+  overflow-y: hidden !important;
+}
+
+.mat-mdc-snack-bar-container.snack-success {
+  --mdc-snackbar-container-color: #4caf50 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+}
+
+.mat-mdc-snack-bar-container.snack-error {
+  --mdc-snackbar-container-color: #f44336 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
 }

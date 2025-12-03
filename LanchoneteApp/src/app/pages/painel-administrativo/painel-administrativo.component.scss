@@ -1,211 +1,195 @@
-.pagina {
-  flex: 1;
-  background-color: #FEF9F0;
-  min-height: 100vh;
+.titulo {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
 
-  .container {
-    padding: 2rem 1rem;
+.botoes {
+  margin-bottom: 2rem;
+  padding: .3rem;
+  border-radius: .6rem;
+  display: inline;
+  background-color: #F8F3ED;
+
+  .btn-produtos, .btn-pedidos {
+    width: 200px;
+    color: var(--fonte-cinza);
+    border-radius: .5rem;
+    padding: .3rem .5rem;
+    background-color: #F8F3ED;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+
+    &.selected {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  .btn-produtos {
+    background-image: url('../../../../public/hamburguer-cinza.png');
+    background-position: 40px center;
+
+    &.selected {
+      background-image: url('../../../../public/hamburguer.png');
+    }
+  }
+
+  .btn-pedidos {
+    background-image: url('../../../../public/carrinho-cinza.png');
+    background-position: 45px center;
+
+    &.selected {
+      background-image: url('../../../../public/carrinho.png');
+    }
+  }
+
+}
+
+.secao-produtos {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.lista-produtos {
+  width: 600px;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  background-color: white;
+  box-shadow: 0px 0px 10px #dad6d6;
+
+  h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+
+  span {
+    color: var(--fonte-cinza);
+    font-size: .95rem;
+  }
+
+  .produtos {
+    max-height: 550px;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 10px;
+    overflow-y: auto;
+  }
+}
 
-    .titulo {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      width: 100%;
-    }
+.tabela-pedidos {
+  background: #fffdfa;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
-    .botoes {
-      margin-bottom: 2rem;
-      padding: .3rem;
-      border-radius: .6rem;
-      display: inline;
-      background-color: #F8F3ED;
+.tabela-pedidos h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+}
 
-      .btn-produtos, .btn-pedidos {
-        width: 200px;
-        color: var(--fonte-cinza);
-        border-radius: .5rem;
-        padding: .3rem .5rem;
-        background-color: #F8F3ED;
-        border: none;
-        cursor: pointer;
-        font-size: 17px;
-        background-repeat: no-repeat;
-        background-size: 20px;
+.tabela-pedidos .subtitulo {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+  display: block;
+}
 
-        &.selected {
-          background-color: white;
-          color: black;
-        }
-      }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-      .btn-produtos {
-        background-image: url('../../../../public/hamburguer-cinza.png');
-        background-position: 40px center;
+thead tr {
+  border-bottom: 1px solid #eee;
+}
 
-        &.selected {
-          background-image: url('../../../../public/hamburguer.png');
-        }
-      }
+thead th {
+  text-align: left;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #777;
+  font-weight: 500;
+}
 
-      .btn-pedidos {
-        background-image: url('../../../../public/carrinho-cinza.png');
-        background-position: 45px center;
+tbody td {
+  padding: 18px 0;
+  font-size: 15px;
+  color: #333;
+}
 
-        &.selected {
-          background-image: url('../../../../public/carrinho.png');
-        }
-      }
+tbody tr + tr {
+  border-top: 1px solid #f3f3f3;
+}
 
-    }
+.status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+}
 
-    .secao-produtos {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin: 0 auto;
-    }
+.status.preparando {
+  background-color: var(--fonte-laranja);
+}
 
-    .lista-produtos {
-      width: 600px;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-sizing: border-box;
-      background-color: white;
-      box-shadow: 0px 0px 10px #dad6d6;
+.status.enviado {
+  background-color: #3487e0;
+}
 
-      h2 {
-        font-weight: 600;
-        font-size: 1.5rem;
-      }
+.status.finalizado {
+  background-color: #4cb050;
+}
 
-      span {
-        color: var(--fonte-cinza);
-        font-size: .95rem;
-      }
+.acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-      .produtos {
-        margin-top: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
+.acoes select {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  background: white;
+}
 
-    .tabela-pedidos {
-      background: #fffdfa;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+.btn-delete {
+  width: 32px;
+  height: 32px;
+  border-radius: .3rem;
+  border: none;
+  background-color: transparent;
+  background-image: url('../../../../public/deletar.png');
+  background-repeat: no-repeat;
+  background-size: 18px;
+  background-position: center;
+  cursor: pointer;
+  transition: .3s;
 
-    .tabela-pedidos h2 {
-      font-size: 26px;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    .tabela-pedidos .subtitulo {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead tr {
-      border-bottom: 1px solid #eee;
-    }
-
-    thead th {
-      text-align: left;
-      padding: 12px 0;
-      font-size: 14px;
-      color: #777;
-      font-weight: 500;
-    }
-
-    tbody td {
-      padding: 18px 0;
-      font-size: 15px;
-      color: #333;
-    }
-
-    tbody tr + tr {
-      border-top: 1px solid #f3f3f3;
-    }
-
-    .status {
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      color: white;
-    }
-
-    .status.preparando {
-      background-color: var(--fonte-laranja);
-    }
-
-    .status.enviado {
-      background-color: #3487e0;
-    }
-
-    .status.finalizado {
-      background-color: #4cb050;
-    }
-
-    .acoes {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .acoes select {
-      padding: 6px 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      background: white;
-    }
-
-    .btn-delete {
-      width: 32px;
-      height: 32px;
-      border-radius: .3rem;
-      border: none;
-      background-color: transparent;
-      background-image: url('../../../../public/deletar.png');
-      background-repeat: no-repeat;
-      background-size: 18px;
-      background-position: center;
-      cursor: pointer;
-      transition: .3s;
-
-      &:hover {
-        background-color: var(--fonte-laranja);
-        background-image: url('../../../../public/deletar-branco.png');
-      }
-    }
-
+  &:hover {
+    background-color: var(--fonte-laranja);
+    background-image: url('../../../../public/deletar-branco.png');
   }
 }
 
 @media screen and (min-width: 1800px) {
-  .container {
-    padding: 2rem 15rem !important;
-
-    .lista-produtos {
-      width: 675px !important;
-    }
+  .lista-produtos {
+    width: 675px !important;
   }
 }
 

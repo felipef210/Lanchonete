@@ -1,9 +1,10 @@
-import { Component, inject, input, InputSignal, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { Component, inject, input, InputSignal, OnChanges, OnInit, output, OutputEmitterRef, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from "@angular/router";
 import { isMatchValidator } from '../../validators/isMatchValidator';
-import { CadastroDto, LoginDto } from '../../models/usuario.models';
+import { CadastroDto, EditarPerfilDto, LoginDto, PerfilDto } from '../../models/usuario.models';
 import { NgxMaskDirective } from 'ngx-mask';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-form-auth',
@@ -11,8 +12,8 @@ import { NgxMaskDirective } from 'ngx-mask';
   templateUrl: './form-auth.component.html',
   styleUrl: './form-auth.component.scss'
 })
-export class FormAuthComponent implements OnInit {
-  tela: InputSignal<'login' | 'cadastro'> = input<'login' | 'cadastro'>('login');
+export class FormAuthComponent implements OnInit, OnChanges {
+  tela: InputSignal<'login' | 'cadastro' | 'editar-perfil'> = input<'login' | 'cadastro' | 'editar-perfil'>('login');
   titulo: InputSignal<string> = input.required<string>();
   legenda: InputSignal<string> = input.required<string>();
   textoRedirecionamento: InputSignal<string> = input.required<string>();
@@ -21,8 +22,12 @@ export class FormAuthComponent implements OnInit {
   textoBotao: InputSignal<string> = input.required<string>();
   mensagemErro: InputSignal<string> = input.required<string>();
 
+  usuario: InputSignal<PerfilDto | undefined> = input<PerfilDto | undefined>();
+
   cadastroSubmit: OutputEmitterRef<CadastroDto> = output<CadastroDto>();
   loginSubmit: OutputEmitterRef<LoginDto> = output<LoginDto>();
+  editarPerfilSubmit: OutputEmitterRef<EditarPerfilDto> = output<EditarPerfilDto>();
+  openDialog: OutputEmitterRef<void> = output<void>();
 
   passwordRegex: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*\\-_])[A-Za-z\\d!@#$%^&*\\-_]{8,}$';
   phoneRegex: string = '^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$';
@@ -52,6 +57,22 @@ export class FormAuthComponent implements OnInit {
       this.form.get('confirmarSenha')?.setValidators(Validators.required);
       this.form.get('confirmarSenha')?.updateValueAndValidity();
     }
+
+    else if (this.tela() === 'editar-perfil') {
+      this.form.get('nome')?.setValidators(Validators.required);
+      this.form.get('nome')?.updateValueAndValidity();
+
+      this.form.get('telefone')?.setValidators(Validators.required);
+      this.form.get('telefone')?.updateValueAndValidity();
+
+      this.form.get('senha')?.setValidators(null);
+      this.form.get('senha')?.updateValueAndValidity();
+    }
+  }
+
+  ngOnChanges() {
+    if (this.usuario())
+      this.form.patchValue(this.usuario()!);
   }
 
   onSubmit() {
@@ -64,6 +85,16 @@ export class FormAuthComponent implements OnInit {
       };
 
       this.cadastroSubmit.emit(formValue);
+      return;
+    }
+
+    else if (this.tela() === 'editar-perfil') {
+      const formValue: EditarPerfilDto = {
+        ...this.form.value,
+        email
+      }
+
+      this.editarPerfilSubmit.emit(formValue);
       return;
     }
 

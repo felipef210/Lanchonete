@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HeaderComponent } from "../../shared/components/header/header.component";
 import { FormProdutoComponent } from "../../shared/components/form-produto/form-produto.component";
 import { ProdutosService } from '../../core/services/produtos.service';
 import { CriarProdutoDto, EditarProdutoDto, ProdutoDto } from '../../shared/models/produto.models';
@@ -8,17 +7,19 @@ import { PedidoService } from '../../core/services/pedido.service';
 import { PedidoDto } from '../../shared/models/pedido.models';
 import { CurrencyPipe, KeyValuePipe, NgClass, AsyncPipe } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-
+import { PaginaSemFooterComponent } from "../../layout/pagina-sem-footer/pagina-sem-footer.component";
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-painel-administrativo',
-  imports: [HeaderComponent, FormProdutoComponent, CardInlineProdutoComponent, CurrencyPipe, KeyValuePipe, NgClass, AsyncPipe],
+  imports: [FormProdutoComponent, CardInlineProdutoComponent, CurrencyPipe, KeyValuePipe, NgClass, AsyncPipe, PaginaSemFooterComponent, MatSnackBarModule],
   templateUrl: './painel-administrativo.component.html',
   styleUrl: './painel-administrativo.component.scss'
 })
 export class PainelAdministrativoComponent implements OnInit {
   botaoSelecionado: 'produtos' | 'pedidos' = 'produtos';
-  produtoSelecionado!: ProdutoDto;
+  produtoSelecionado!: ProdutoDto | undefined;
+  mensagemDeErro: string = '';
 
   private produtosSubject = new BehaviorSubject<ProdutoDto[]>([]);
   private pedidosSubject = new BehaviorSubject<PedidoDto[]>([]);
@@ -34,6 +35,7 @@ export class PainelAdministrativoComponent implements OnInit {
 
   private readonly produtosService: ProdutosService = inject(ProdutosService);
   private readonly pedidosService: PedidoService = inject(PedidoService);
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
 
   ngOnInit() {
     this.carregarProdutosPedidos();
@@ -76,34 +78,56 @@ export class PainelAdministrativoComponent implements OnInit {
     this.produtosService.adicionarProduto(produto).subscribe({
       next: () => {
         this.carregarProdutosPedidos();
+        this.snackBar.open('Produto adicionado!', '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
       },
 
       error: err => {
-        console.error(err.error.detail);
+        this.mensagemDeErro = err.error.detail;
       }
     });
   }
 
   editarProduto(produto: EditarProdutoDto) {
-    this.produtosService.editarProduto(produto, this.produtoSelecionado.id).subscribe({
-      next: () => {
-        this.carregarProdutosPedidos();
-      },
+    if (this.produtoSelecionado) {
+      this.produtosService.editarProduto(produto, this.produtoSelecionado.id).subscribe({
+        next: () => {
+          this.carregarProdutosPedidos();
+          this.produtoSelecionado = undefined;
+          this.snackBar.open('Produto editado!', '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+        },
 
-      error: err => {
-        console.error(err.error?.detail);
-      }
-    });
+        error: err => {
+          this.mensagemDeErro = err.error.detail;
+        }
+      });
+    }
   }
 
   deletarProduto(id: string) {
     this.produtosService.deletarProduto(id).subscribe({
       next: () => {
         this.carregarProdutosPedidos();
+        this.snackBar.open('Produto removido!', '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
       },
 
       error: err => {
-        console.error(err.error);
+        this.snackBar.open(`${err.error.detail}`, '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
       }
     });
   }
@@ -112,10 +136,19 @@ export class PainelAdministrativoComponent implements OnInit {
     this.pedidosService.deletarPedido(id).subscribe({
       next: () => {
         this.carregarProdutosPedidos();
+        this.snackBar.open('Pedido removido!', '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
       },
 
       error: err => {
-        console.error(err.error);
+        this.snackBar.open(`${err.error.detail}`, '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
       }
     })
   }

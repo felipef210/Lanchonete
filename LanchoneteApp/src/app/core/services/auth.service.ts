@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { Observable, tap } from 'rxjs';
-import { CadastroDto, LoginDto } from '../../shared/models/usuario.models';
+import { CadastroDto, EditarPerfilDto, LoginDto, PerfilDto, RedefinirSenhaDto } from '../../shared/models/usuario.models';
 import { jwtDecode } from 'jwt-decode';
 
 interface CustomJwtPayload {
@@ -11,6 +11,11 @@ interface CustomJwtPayload {
   nome: string;
   role: string;
   exp: string;
+}
+
+interface EditarPerfilResponse {
+  message: string;
+  token: string;
 }
 
 @Injectable({
@@ -37,6 +42,23 @@ export class AuthService {
 
   cadastrar(credenciais: CadastroDto) {
     return this.http.post(`${this.url}/cadastro`, credenciais);
+  }
+
+  getPerfil(): Observable<PerfilDto> {
+    return this.http.get<PerfilDto>(`${this.url}/perfil`);
+  }
+
+  editarPerfil(dto: EditarPerfilDto): Observable<EditarPerfilResponse> {
+    return this.http.put<EditarPerfilResponse>(`${this.url}/editar-perfil`,dto).pipe(
+      tap(response => {
+        localStorage.setItem(this.keyToken, response.token);
+        this.loggedIn.set(true);
+      })
+    );
+  }
+
+  alterarSenha(dto: RedefinirSenhaDto) {
+    return this.http.patch(`${this.url}/alterar-senha`, dto);
   }
 
   getJWTToken(): string | null {

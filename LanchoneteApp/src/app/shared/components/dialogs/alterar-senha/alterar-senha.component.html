@@ -1,0 +1,20 @@
+<section class="modal-senha" (click)="fecharModal.emit()">
+  <div class="modal-conteudo" (click)="$event.stopPropagation()">
+    <h2>Alterar senha</h2>
+    <form [formGroup]="form" (submit)="alterarSenha()">
+      <label for="senhaAtual">Senha atual *</label>
+      <input type="password" id="senhaAtual" name="senhaAtual" formControlName="senhaAtual"/>
+
+      <label for="novaSenha">Nova senha *</label>
+      <input type="password" id="novaSenha" name="novaSenha" formControlName="novaSenha"/>
+
+      <label for="confirmarNovaSenha">Confirmar nova senha *</label>
+      <input type="password" id="confirmarNovaSenha" name="confirmarNovaSenha" formControlName="confirmarNovaSenha"/>
+
+      @if (mensagemDeErro !== '') {
+        <span class="mensagem-erro">{{ mensagemDeErro }}</span>
+      }
+      <button type="submit" class="btn" [disabled]="form.invalid">Alterar senha</button>
+    </form>
+  </div>
+</section>

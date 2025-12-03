@@ -23,6 +23,12 @@ public class UsuarioRepository : IUsuarioRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task EditarPerfil(Usuario usuario)
+    {
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<Usuario> ExistingUser(string email)
     {
         return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
