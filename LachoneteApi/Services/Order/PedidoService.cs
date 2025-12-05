@@ -37,7 +37,7 @@ public class PedidoService : IPedidoService
         await _pedidoRepository.CriarPedido(pedido); 
 
         pedido.Total = await AdicionarItensPedido(pedido, criarPedidoDto.Itens);
-        pedido.Status = Enums.StatusPedidoEnum.EmPreparacao;
+        pedido.Status = Enums.StatusPedidoEnum.Aberto;
 
         await _pedidoRepository.SalvarPedido();
 
@@ -59,6 +59,13 @@ public class PedidoService : IPedidoService
         var pedidosDto = _mapper.Map<List<PedidoDto>>(pedidos);
 
         return pedidosDto;
+    }
+
+    public async Task<List<PedidoDto>> ListarPedidosEmAberto()
+    {
+        var pedidosEmAberto = await _pedidoRepository.ListarPedidosEmAberto();
+        var pedidosEmAbertoDto = _mapper.Map<List<PedidoDto>>(pedidosEmAberto);
+        return pedidosEmAbertoDto;
     }
 
     public async Task<PedidoDto> GetPedidoById(Guid id)
@@ -99,10 +106,7 @@ public class PedidoService : IPedidoService
 
         ValidaPermissao(pedido, usuario);
 
-        _mapper.Map(atualizarPedidoDto, pedido);
-
-        pedido.Itens.Clear();
-        pedido.Total = await AdicionarItensPedido(pedido, atualizarPedidoDto.Itens);
+        pedido.Status = atualizarPedidoDto.Status;
 
         await _pedidoRepository.SalvarPedido();
 

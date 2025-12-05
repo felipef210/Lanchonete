@@ -53,6 +53,16 @@ public class PedidoRepository : IPedidoRepository
             .ToListAsync();
     }
 
+    public async Task<List<Pedido>> ListarPedidosEmAberto()
+    {
+        return await _context.Pedidos
+            .Include(x => x.Cliente)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Produto)
+            .Where(p => p.Status == Enums.StatusPedidoEnum.Aberto)
+            .ToListAsync();
+    }
+
     public async Task DeletarPedido(Guid id)
     {
         var pedido = await GetPedidoById(id);

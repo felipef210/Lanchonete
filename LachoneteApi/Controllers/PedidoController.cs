@@ -39,14 +39,23 @@ public class PedidoController : Controller
         return Ok(pedidos);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("pedidosEmAberto")]
+    [Authorize(Policy = "admin")]
+    public async Task<ActionResult<List<PedidoDto>>> ListarPedidosEmAberto()
+    {
+        var pedidosEmAberto = await _pedidoService.ListarPedidosEmAberto();
+        return Ok(pedidosEmAberto);
+    }
+
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<PedidoDto>> GetPedidoById(Guid id)
     {
         var pedido = await _pedidoService.GetPedidoById(id);
         return Ok(pedido);
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
+    [Authorize(Policy = "admin")]
     public async Task<ActionResult<PedidoDto>> AtualizarPedido(Guid id, [FromBody] AtualizarPedidoDto dto)
     {
         var pedidoAtualizado = await _pedidoService.AtualizarPedido(id, dto);

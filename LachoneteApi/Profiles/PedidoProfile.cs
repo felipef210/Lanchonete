@@ -18,9 +18,5 @@ public class PedidoProfile : Profile
         CreateMap<ItemPedido, ItemPedidoDto>()
             .ForMember(det => det.ProdutoPreco, opt => opt.MapFrom(src => src.Produto.Preco))
             .ForMember(dest => dest.ProdutoNome, opt => opt.MapFrom(src => src.Produto.Nome));
-    
-        CreateMap<AtualizarPedidoDto, Pedido>()
-            .ForMember(dest => dest.Total, opt => opt.Ignore())
-            .ForMember(dest => dest.Itens, opt => opt.Ignore());
     }
 }
