@@ -8,6 +8,9 @@
 
     <button class="btn-pedidos" (click)="selecionarDisplay('pedidos')" [class.selected]="botaoSelecionado === 'pedidos'">
       Pedidos
+      @if (pedidosEmAbertoCount > 0) {
+        <span class="contador-pedidos-aberto">{{ pedidosEmAbertoCount }}</span>
+      }
     </button>
   </section>
 
@@ -29,7 +32,7 @@
             @let produtos = produto$ | async;
 
             @for (produto of produtos; track $index) {
-              <app-card-inline-produto (editarProduto)="selecionarProduto($event)" (deletarProduto)="deletarProduto($event)" [produto]="produto"></app-card-inline-produto>
+              <app-card-inline-produto (editarProduto)="selecionarProduto($event)" (deletarProduto)="abrirModal(produto)" [produto]="produto"></app-card-inline-produto>
             }
           }
         </div>
@@ -73,13 +76,13 @@
                 <td>{{ formatarData(pedido.dataHora) }}</td>
 
                 <td class="acoes">
-                  <select>
+                  <select (change)="editarPedido(pedido.id, +$any($event.target).value)">
                     @for (status of statusMap| keyvalue; track status.key) {
                       <option [value]="status.key" [selected]="pedido.status === +status.key">{{ status.value }}</option>
                     }
                   </select>
 
-                  <button class="btn-delete" (click)="deletarPedido(pedido.id)"></button>
+                  <button class="btn-delete" (click)="abrirModalPedido(pedido)"></button>
                 </td>
               </tr>
             }
@@ -89,3 +92,14 @@
     </div>
   }
 </app-pagina-sem-footer>
+
+@if (modalAberto) {
+  <app-confirmacao [itemName]="produtoSelecionadoParaExclusao!.nome" (result)="resolverModal($event)"></app-confirmacao>
+}
+
+@if (modalExcluirPedidoAberto) {
+  <app-confirmacao
+    [itemName]="'pedido #' + pedidoSelecionadoParaExclusao!.id.split('-')[0]"
+    (result)="resolverModalPedido($event)">
+  </app-confirmacao>
+}

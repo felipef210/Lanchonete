@@ -9,23 +9,32 @@ import { CurrencyPipe, KeyValuePipe, NgClass, AsyncPipe } from '@angular/common'
 import { BehaviorSubject } from 'rxjs';
 import { PaginaSemFooterComponent } from "../../layout/pagina-sem-footer/pagina-sem-footer.component";
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { StatusPedidoEnum } from '../../shared/enums/StatusPedidoEnum';
+import { ConfirmacaoComponent } from "../../shared/components/dialogs/confirmacao/confirmacao.component";
 
 @Component({
   selector: 'app-painel-administrativo',
-  imports: [FormProdutoComponent, CardInlineProdutoComponent, CurrencyPipe, KeyValuePipe, NgClass, AsyncPipe, PaginaSemFooterComponent, MatSnackBarModule],
+  imports: [FormProdutoComponent, CardInlineProdutoComponent, CurrencyPipe, KeyValuePipe, NgClass, AsyncPipe, PaginaSemFooterComponent, MatSnackBarModule, ConfirmacaoComponent],
   templateUrl: './painel-administrativo.component.html',
   styleUrl: './painel-administrativo.component.scss'
 })
 export class PainelAdministrativoComponent implements OnInit {
   botaoSelecionado: 'produtos' | 'pedidos' = 'produtos';
-  produtoSelecionado!: ProdutoDto | undefined;
+  produtoSelecionado?: ProdutoDto;
+  produtoSelecionadoParaExclusao?: ProdutoDto;
+  pedidoSelecionadoParaExclusao?: PedidoDto;
   mensagemDeErro: string = '';
+  pedidosEmAbertoCount: number = 0;
+  modalAberto = false;
+  modalExcluirPedidoAberto = false;
 
   private produtosSubject = new BehaviorSubject<ProdutoDto[]>([]);
   private pedidosSubject = new BehaviorSubject<PedidoDto[]>([]);
+  private pedidosEmAbertoSubject = new BehaviorSubject<PedidoDto[]>([]);
 
   pedido$ = this.pedidosSubject.asObservable();
   produto$ = this.produtosSubject.asObservable();
+  pedidosEmAberto$ = this.pedidosEmAbertoSubject.asObservable();
 
   statusMap: Record<number, string> = {
     0: 'Aberto',
@@ -39,6 +48,10 @@ export class PainelAdministrativoComponent implements OnInit {
 
   ngOnInit() {
     this.carregarProdutosPedidos();
+
+    this.pedidosEmAberto$.subscribe(lista => {
+      this.pedidosEmAbertoCount = lista.length;
+    });
   }
 
   selecionarDisplay(botao: 'produtos' | 'pedidos') {
@@ -49,8 +62,7 @@ export class PainelAdministrativoComponent implements OnInit {
     switch (status) {
       case 0: return 'aberto';
       case 1: return 'preparando';
-      case 2: return 'pronto';
-      case 3: return 'finalizado';
+      case 2: return 'finalizado';
       default: return '';
     }
   }
@@ -132,6 +144,27 @@ export class PainelAdministrativoComponent implements OnInit {
     });
   }
 
+  editarPedido(id: string, status: StatusPedidoEnum) {
+    this.pedidosService.editarPedido(id, status).subscribe({
+      next: () => {
+        this.carregarProdutosPedidos();
+        this.snackBar.open('Status atualizado!', '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+      },
+
+      error: err => {
+        this.snackBar.open(`${err.error.detail || 'Erro ao editar pedido'}`, '', {
+          duration: 4000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+      }
+    });
+  }
+
   deletarPedido(id: string) {
     this.pedidosService.deletarPedido(id).subscribe({
       next: () => {
@@ -153,8 +186,38 @@ export class PainelAdministrativoComponent implements OnInit {
     })
   }
 
+  abrirModal(produto: ProdutoDto) {
+    this.produtoSelecionadoParaExclusao = produto;
+    this.modalAberto = true;
+  }
+
+  abrirModalPedido(pedido: PedidoDto) {
+    this.pedidoSelecionadoParaExclusao = pedido;
+    this.modalExcluirPedidoAberto = true;
+  }
+
+  resolverModal(confirmado: boolean) {
+    this.modalAberto = false;
+
+    if (confirmado && this.produtoSelecionadoParaExclusao)
+      this.deletarProduto(this.produtoSelecionadoParaExclusao!.id);
+
+    this.produtoSelecionadoParaExclusao = undefined;
+  }
+
+  resolverModalPedido(confirmado: boolean) {
+    this.modalExcluirPedidoAberto = false;
+
+    if (confirmado && this.pedidoSelecionadoParaExclusao) {
+      this.deletarPedido(this.pedidoSelecionadoParaExclusao.id);
+    }
+
+    this.pedidoSelecionadoParaExclusao = undefined;
+  }
+
   private carregarProdutosPedidos() {
     this.produto$ = this.produtosService.getProdutos();
     this.pedido$ = this.pedidosService.getPedidos();
+    this.pedidosService.getPedidosEmAberto().subscribe(x => this.pedidosEmAbertoSubject.next(x));
   }
 }

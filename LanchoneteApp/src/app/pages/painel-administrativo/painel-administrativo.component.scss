@@ -13,6 +13,7 @@
 
   .btn-produtos, .btn-pedidos {
     width: 200px;
+    text-align: center;
     color: var(--fonte-cinza);
     border-radius: .5rem;
     padding: .3rem .5rem;
@@ -39,11 +40,26 @@
   }
 
   .btn-pedidos {
+    position: absolute;
     background-image: url('../../../../public/carrinho-cinza.png');
-    background-position: 45px center;
+    background-position: 35px center;
 
     &.selected {
       background-image: url('../../../../public/carrinho.png');
+    }
+
+    .contador-pedidos-aberto {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      left: 15px;
+      background-color: var(--fonte-laranja);
+      color: var(--fonte-branca);
+      border-radius: 1rem;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
     }
   }
 

@@ -1,1 +1,12 @@
-<p>confirmacao works!</p>
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal">
+  <h2>Confirmar exclusão</h2>
+
+  <p>Tem certeza que deseja excluir <strong>{{ itemName() }}</strong>?</p>
+
+  <div class="actions">
+    <button class="cancel" (click)="close()">Cancelar</button>
+    <button class="confirm" (click)="confirm()">Excluir</button>
+  </div>
+</div>
