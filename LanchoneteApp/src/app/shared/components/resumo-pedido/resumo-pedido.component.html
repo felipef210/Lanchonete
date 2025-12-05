@@ -1,0 +1,24 @@
+<section class="card">
+  <h2>Resumo do Pedido</h2>
+
+  <div class="detalhes-pedido">
+    @for (item of itens(); track $index) {
+      <div>
+        <span class="item">{{ item.quantidade }}x {{ item.produtoNome }}</span>
+        <span class="preco">{{ item.quantidade * item.produtoPreco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="secao-total-pedido">
+    <div class="total-pedido">
+      <span>Total</span>
+      <span class="preco">{{ total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+    </div>
+
+    <div class="acoes">
+      <button class="btn-principal" (click)="finalizarPedidoEmmiter.emit()">Finalizar Pedido</button>
+      <a class="btn-secundario" routerLink="/cardapio">Continuar Comprando</a>
+    </div>
+  </div>
+</section>

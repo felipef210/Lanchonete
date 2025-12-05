@@ -72,10 +72,29 @@
       }
 
       .link-carrinho {
+        position: relative;
         background-image: url('../../../../../public/carrinho.png');
 
         &:hover {
           background-image: url('../../../../../public/carrinho-branco.png');
+        }
+
+        .quantidade-itens {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 12px;
+          color: var(--fonte-branca);
+          font-weight: 500;
+          background-color: var(--fonte-laranja);
+          width: 20px;
+          height: 20px;
+          border-radius: 1rem;
+          text-decoration: none;
+          top: -4px;
+          right: -1px;
+
         }
       }
 

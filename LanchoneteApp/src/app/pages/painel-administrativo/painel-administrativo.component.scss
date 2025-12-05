@@ -141,6 +141,10 @@ tbody tr + tr {
   color: white;
 }
 
+.status.aberto {
+  color: black;
+}
+
 .status.preparando {
   background-color: var(--fonte-laranja);
 }

@@ -15,11 +15,14 @@
 
       @for (produto of produtos; track $index) {
         <app-produto
+          [id]="produto.id"
           [imagem]="produto.imagem"
           [nome]="produto.nome"
           [descricao]="produto.descricao"
           [preco]="produto.preco"
-          ></app-produto>
+          (snackBarEmmiter)="exibirSnackBar(produto.nome)"
+        >
+        </app-produto>
       }
     </div>
   </section>

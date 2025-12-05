@@ -19,6 +19,10 @@ export class PedidoService {
     return this.http.get<PedidoDto[]>(`${this.url}/listarPorUsuario`);
   }
 
+  criarPedido(body: { itens: { produtoId: string; quantidade: number }[] }): Observable<PedidoDto> {
+    return this.http.post<PedidoDto>(`${this.url}`, body);
+  }
+
   deletarPedido(id: string): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
   }

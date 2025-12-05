@@ -3,6 +3,7 @@ import { ContainerComponent } from "../../layout/container/container.component";
 import { ProdutoComponent } from "../../shared/components/produto/produto.component";
 import { ProdutosService } from '../../core/services/produtos.service';
 import { ProdutoDto } from '../../shared/models/produto.models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cardapio',
@@ -13,9 +14,10 @@ import { ProdutoDto } from '../../shared/models/produto.models';
 export class CardapioComponent implements OnInit {
   itens: string[] = ['Todos', 'Lanches', 'Sobremesas', 'Bebidas']
   selectedIndex = 0;
-  produtos!: ProdutoDto[];
+  produtos: ProdutoDto[] = [];
 
   private readonly produtosService: ProdutosService = inject(ProdutosService);
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
 
   ngOnInit() {
     this.listarProdutos();
@@ -35,6 +37,14 @@ export class CardapioComponent implements OnInit {
   filtrarProdutos(categoria: number) {
     this.produtosService.filtrarProdutos(categoria).subscribe((itensFiltrados) => {
       this.produtos = itensFiltrados;
+    });
+  }
+
+  exibirSnackBar(produtoNome: string) {
+    this.snackBar.open(`${produtoNome} adicionado(a) ao carrinho!`, '', {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'end'
     });
   }
 

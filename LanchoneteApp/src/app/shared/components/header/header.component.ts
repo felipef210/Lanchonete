@@ -1,6 +1,7 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../../core/services/auth.service';
+import { CarrinhoService } from '../../../core/services/carrinho.service';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +9,17 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   public readonly authService: AuthService = inject(AuthService);
+  private readonly carrinhoService: CarrinhoService = inject(CarrinhoService);
   private readonly router: Router = inject(Router);
 
   menuAberto: boolean = false;
+  itens: number = 0;
+
+  ngOnInit() {
+    this.carrinhoService.quantidadeItens$.subscribe((qtd) => this.itens = qtd);
+  }
 
   logout() {
     this.authService.logout();

@@ -10,7 +10,7 @@ export interface PedidoDto {
 }
 
 export interface ItemPedidoDto {
-  produtoId: string
+  produtoId?: string;
   produtoNome: string;
   produtoPreco: number;
   quantidade: number;

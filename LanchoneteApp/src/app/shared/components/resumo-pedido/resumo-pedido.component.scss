@@ -1,0 +1,89 @@
+.card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: .8rem;
+  border: 2px solid #fae9d7;
+  box-shadow: 0px 0px 10px #fae9d7;
+  box-sizing: border-box;
+
+
+  .detalhes-pedido {
+    border-bottom: 1px solid rgb(204, 204, 204);
+    padding-bottom: 1rem;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      margin: .5rem 0;
+
+      .item {
+        color: var(--fonte-cinza);
+      }
+
+      .preco {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .secao-total-pedido {
+    margin-top: 1rem;
+
+    .total-pedido {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+
+      .preco {
+        color: var(--fonte-laranja);
+      }
+    }
+
+    .acoes {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 10px;
+
+      .btn-principal, .btn-secundario {
+        width: 100%;
+        cursor: pointer;
+        padding: .5rem;
+        border-radius: .6rem;
+        border: none;
+        font-size: 16px;
+        font-weight: 400;
+        transition: .3s;
+      }
+
+      .btn-principal {
+        background-color: var(--fonte-laranja);
+        color: var(--fonte-branca);
+
+        &:hover {
+          transform: scale(1.02);
+          box-shadow: 0px 0px 10px var(--fonte-laranja);
+        }
+      }
+
+      .btn-secundario {
+        background-color: #F0F0F0;
+        box-sizing: border-box;
+        text-align: center;
+        text-decoration: none;
+        color: black;
+
+        &:hover {
+          background-color: var(--fonte-laranja);
+          color: var(--fonte-branca);
+        }
+      }
+
+    }
+  }
+}

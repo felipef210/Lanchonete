@@ -4,4 +4,8 @@
   <h2>{{ nome() }}</h2>
   <p>{{ descricao() }}</p>
   <h3>{{ preco() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h3>
+
+  @if (authService.isLoggedIn()) {
+    <button (click)="adicionar()">Adicionar ao carrinho</button>
+  }
 </section>

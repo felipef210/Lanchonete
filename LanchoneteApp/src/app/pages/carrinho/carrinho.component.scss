@@ -1,0 +1,36 @@
+.div-sem-produtos {
+  text-align: center;
+
+  figure {
+    font-size: 4rem;
+    margin-bottom: .5rem;
+  }
+
+  p {
+    margin-top: .5rem;
+    color: var(--fonte-cinza);
+  }
+}
+
+.com-produtos {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  box-sizing: border-box;
+
+  .secao-itens {
+    width: 65%;
+  }
+
+  app-resumo-pedido {
+    margin-top: 1rem;
+    width: 35%;
+  }
+}
+
+h2 {
+    font-size: 2rem;
+    width: 100%;
+    text-align: left;
+  }
+

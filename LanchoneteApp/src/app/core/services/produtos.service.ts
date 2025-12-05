@@ -15,6 +15,10 @@ export class ProdutosService {
     return this.http.get<ProdutoDto[]>(`${this.url}/listar`);
   }
 
+  getProdutoById(id: string): Observable<ProdutoDto> {
+    return this.http.get<ProdutoDto>(`${this.url}/${id}`);
+  }
+
   filtrarProdutos(categoria: number): Observable<ProdutoDto[]> {
     return this.http.get<ProdutoDto[]>(`${this.url}/filtro`, { params: { categoria } });
   }

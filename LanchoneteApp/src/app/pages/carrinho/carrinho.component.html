@@ -1,0 +1,30 @@
+<app-pagina-sem-footer>
+  @if (itens.length === 0) {
+    <div class="div-sem-produtos">
+      <figure>🛒</figure>
+      <h2>Seu carrinho está vazio</h2>
+      <p>Adicione produtos do cardápio para começar.</p>
+    </div>
+  }
+
+  @else {
+    <h2>Meu carrinho</h2>
+    <div class="com-produtos">
+      <div class="secao-itens">
+        @for (item of itens; track $index) {
+          <app-card-carrinho-produto
+            [quantidade]="item.quantidade"
+            [produtoId]="item.produtoId!"
+            (aumentarQuantidade)="aumentar(item.produtoId!)"
+            (diminuirQuantidade)="diminuir(item.produtoId!)"
+            (deletarItem)="deletar(item.produtoId!)"
+          >
+        </app-card-carrinho-produto>
+        }
+      </div>
+
+      <app-resumo-pedido [itens]="itens" (finalizarPedidoEmmiter)="finalizarPedido()"></app-resumo-pedido>
+
+    </div>
+  }
+</app-pagina-sem-footer>

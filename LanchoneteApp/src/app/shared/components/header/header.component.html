@@ -11,7 +11,11 @@
         @if (authService.getRole() === 'admin') {
           <li><a class="link-admin" routerLink="/administrativo"></a></li>
         }
-        <li><a class="link-carrinho" routerLink=""></a></li>
+        <li><a class="link-carrinho" routerLink="/carrinho">
+          @if (itens > 0) {
+            <span class="quantidade-itens">{{ itens }}</span>
+          }
+        </a></li>
         <li><button (click)="logout()"></button></li>
       </ul>
 

@@ -17,4 +17,21 @@
     color: var(--fonte-cinza);
     margin-bottom: 1rem;
   }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: .5rem 0;
+    border-radius: .5rem;
+    border: none;
+    background-color: var(--fonte-laranja);
+    color: var(--fonte-branca);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0px 0px 10px var(--fonte-laranja);
+    }
+  }
 }

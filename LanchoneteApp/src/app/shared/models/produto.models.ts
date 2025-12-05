@@ -4,7 +4,7 @@ export interface CriarProdutoDto {
   descricao: string;
   imagem: File;
   categoriaId: number;
-}
+};
 
 export interface EditarProdutoDto {
   nome: string;
@@ -12,7 +12,7 @@ export interface EditarProdutoDto {
   descricao: string;
   imagem: File;
   categoriaId: number;
-}
+};
 
 export interface ProdutoDto {
   id: string;
@@ -21,4 +21,10 @@ export interface ProdutoDto {
   descricao: string;
   imagem: string;
   categoriaId: number
-}
+};
+
+export interface ProdutoLocalStorage {
+  id: string;
+  nome: string;
+  preco: number;
+};
