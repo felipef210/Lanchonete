@@ -41,9 +41,11 @@
   }
 
   @else if (botaoSelecionado === 'pedidos') {
+
     <div class="tabela-pedidos">
       <h2>Pedidos</h2>
-      <span class="subtitulo">1 pedidos registrados</span>
+      @let pedidos = pedido$ | async;
+      <span class="subtitulo">{{ pedidos?.length }} {{ pedidos?.length === 1 ? 'pedido registrado' : 'pedidos registrados' }} </span>
 
       <table>
         <thead>
@@ -60,8 +62,6 @@
 
         <tbody>
           @if (pedido$ | async) {
-            @let pedidos = pedido$ | async;
-
             @for (pedido of pedidos; track $index) {
               <tr>
                 <td>#{{ pedido.id.split('-')[0] }}</td>
