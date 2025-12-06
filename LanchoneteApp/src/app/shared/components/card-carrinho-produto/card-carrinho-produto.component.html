@@ -1,21 +1,23 @@
 <section class="card">
-  <img [src]="produto.imagem"/>
+  @if (produto) {
+    <img [src]="produto.imagem"/>
 
-  <div class="card__info">
-    <h2>{{ produto.nome }}</h2>
-    <p>{{ produto.descricao }}</p>
+    <div class="card__info">
+      <h2>{{ produto.nome }}</h2>
+      <p>{{ produto.descricao }}</p>
 
-    <div class="ultima-linha">
-      <div class="quantidade">
-        <button (click)="diminuirQuantidade.emit()">-</button>
-        <span>{{ quantidade() }}</span>
-        <button (click)="aumentarQuantidade.emit()">+</button>
-      </div>
+      <div class="ultima-linha">
+        <div class="quantidade">
+          <button (click)="diminuirQuantidade.emit()">-</button>
+          <span>{{ quantidade() }}</span>
+          <button (click)="aumentarQuantidade.emit()">+</button>
+        </div>
 
-      <div class="preco">
-        <span>{{ produto.preco * quantidade() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
-        <button (click)="deletarItem.emit()"></button>
+        <div class="preco">
+          <span>{{ produto.preco * quantidade() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+          <button (click)="deletarItem.emit()"></button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </section>

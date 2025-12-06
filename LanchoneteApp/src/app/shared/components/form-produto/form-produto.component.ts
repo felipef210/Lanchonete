@@ -58,6 +58,7 @@ export class FormProdutoComponent implements OnInit, OnChanges {
       if (!this.produto()) {
         this.adicionarProduto.emit(dto);
         this.form.reset();
+        this.form.get('imagem')?.patchValue(null);
         return;
       }
 

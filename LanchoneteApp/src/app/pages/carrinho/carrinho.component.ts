@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class CarrinhoComponent implements OnInit {
   itens: ItemPedidoDto[] = [];
+  primeiraCompra: boolean = false;
 
   private readonly carrinhoService: CarrinhoService = inject(CarrinhoService);
   private readonly pedidoService: PedidoService = inject(PedidoService);
@@ -24,6 +25,10 @@ export class CarrinhoComponent implements OnInit {
 
   ngOnInit() {
     this.itens = this.carrinhoService.getItens();
+
+    this.pedidoService.getPedidosPorUsuario().subscribe(pedidos => {
+      this.primeiraCompra = pedidos.length === 0;
+    });
   }
 
   aumentar(id: string) {

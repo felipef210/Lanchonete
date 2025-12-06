@@ -194,9 +194,9 @@ namespace LachoneteApi.Migrations
             modelBuilder.Entity("LachoneteApi.Models.Pedido", b =>
                 {
                     b.HasOne("LachoneteApi.Models.Usuario", "Cliente")
-                        .WithMany()
+                        .WithMany("Pedidos")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -221,6 +221,11 @@ namespace LachoneteApi.Migrations
             modelBuilder.Entity("LachoneteApi.Models.Pedido", b =>
                 {
                     b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("LachoneteApi.Models.Usuario", b =>
+                {
+                    b.Navigation("Pedidos");
                 });
 #pragma warning restore 612, 618
         }

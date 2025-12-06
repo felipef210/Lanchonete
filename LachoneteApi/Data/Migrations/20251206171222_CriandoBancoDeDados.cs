@@ -83,7 +83,7 @@ namespace LachoneteApi.Migrations
                         column: x => x.ClienteId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

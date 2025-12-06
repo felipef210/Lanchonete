@@ -8,12 +8,21 @@
         <span class="preco">{{ item.quantidade * item.produtoPreco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
       </div>
     }
+    @if (primeiraCompra()) {
+      <div class="desconto">
+        <span class="desconto-span">Desconto de primeira compra (10%)</span>
+        <span class="preco">- {{ (total * 0.10) | currency:'BRL' }}</span>
+      </div>
+    }
   </div>
+
 
   <div class="secao-total-pedido">
     <div class="total-pedido">
       <span>Total</span>
-      <span class="preco">{{ total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      <span class="preco">
+        {{ totalComDesconto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </span>
     </div>
 
     <div class="acoes">

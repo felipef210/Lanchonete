@@ -11,6 +11,12 @@ public class Context : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<Usuario>()
+            .HasMany(u => u.Pedidos)
+            .WithOne(p => p.Cliente)
+            .HasForeignKey(p => p.ClienteId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<Categoria>().HasData(
             new Categoria { Id = 1, Nome = "Lanches" },
             new Categoria { Id = 2, Nome = "Sobremesas" },

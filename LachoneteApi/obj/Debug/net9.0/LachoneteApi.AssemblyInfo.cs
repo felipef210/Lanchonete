@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LachoneteApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd8dfb161a5f440ce9252bc90e84ee8c63f18612")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3662483ff47349398ef9ce86ae9e8743d0bec4fc")]
 [assembly: System.Reflection.AssemblyProductAttribute("LachoneteApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LachoneteApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

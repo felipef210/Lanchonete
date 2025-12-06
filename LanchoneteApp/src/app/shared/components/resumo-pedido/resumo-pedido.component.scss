@@ -24,6 +24,13 @@
         font-weight: 600;
       }
     }
+
+    .desconto {
+      .desconto-span {
+        text-decoration: line-through;
+        color: var(--fonte-cinza);
+      }
+    }
   }
 
   .secao-total-pedido {

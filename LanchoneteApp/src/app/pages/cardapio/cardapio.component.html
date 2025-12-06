@@ -6,13 +6,13 @@
       }
     </ul>
 
-    <div class="itens">
-      @if (produtos.length <= 0) {
-        <p class="semItens">
-          Sem itens para exibir
-        </p>
-      }
+    @if (produtos.length <= 0) {
+      <p class="semItens">
+            Sem itens para exibir
+      </p>
+    }
 
+    <div class="itens">
       @for (produto of produtos; track $index) {
         <app-produto
           [id]="produto.id"

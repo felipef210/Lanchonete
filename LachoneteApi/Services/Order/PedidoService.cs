@@ -28,16 +28,26 @@ public class PedidoService : IPedidoService
 
     public async Task<PedidoDto> CriarPedido([FromBody] CriarPedidoDto criarPedidoDto)
     {
-        var usuario = await ObterUsuarioLogado();
+        var usuarioLogado = await ObterUsuarioLogado();
 
+        var usuario = await _usuarioRepository.ObterUsuarioComPedidos(usuarioLogado.Id);
+
+        bool aplicarDesconto = false;
+
+        if (usuario.Pedidos?.Count() == 0)
+            aplicarDesconto = true;
+        
         var pedido = _mapper.Map<Pedido>(criarPedidoDto);
         pedido.ClienteId = usuario.Id;
-        pedido.Cliente = await _usuarioRepository.GetUserById(usuario.Id);
+        pedido.Cliente = usuario;
 
         await _pedidoRepository.CriarPedido(pedido); 
 
         pedido.Total = await AdicionarItensPedido(pedido, criarPedidoDto.Itens);
         pedido.Status = Enums.StatusPedidoEnum.Aberto;
+
+        if (aplicarDesconto)
+            pedido.Total *= 0.9m;
 
         await _pedidoRepository.SalvarPedido();
 

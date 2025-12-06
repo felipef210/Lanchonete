@@ -34,6 +34,13 @@ public class UsuarioRepository : IUsuarioRepository
         return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
     }
 
+    public async Task<Usuario> ObterUsuarioComPedidos(Guid usuarioId)
+    {
+        return await _context.Usuarios
+            .Include(u => u.Pedidos)
+            .FirstOrDefaultAsync(u => u.Id == usuarioId);
+    }
+
     public async Task<Usuario> GetUserById(Guid userId)
     {
         return await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == userId);

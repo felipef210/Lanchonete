@@ -19,7 +19,7 @@ export class CardCarrinhoProdutoComponent implements OnInit {
   diminuirQuantidade: OutputEmitterRef<void> = output();
   deletarItem: OutputEmitterRef<void> = output();
 
-  produto!: ProdutoDto;
+  produto: ProdutoDto | null = null;
 
   ngOnInit() {
     this.produtosService.getProdutoById(this.produtoId()).subscribe((produtoResponse) => {

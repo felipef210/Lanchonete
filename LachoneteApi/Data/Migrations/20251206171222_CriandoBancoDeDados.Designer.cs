@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LachoneteApi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20251123160701_CriandoBancoDeDados")]
+    [Migration("20251206171222_CriandoBancoDeDados")]
     partial class CriandoBancoDeDados
     {
         /// <inheritdoc />
@@ -197,9 +197,9 @@ namespace LachoneteApi.Migrations
             modelBuilder.Entity("LachoneteApi.Models.Pedido", b =>
                 {
                     b.HasOne("LachoneteApi.Models.Usuario", "Cliente")
-                        .WithMany()
+                        .WithMany("Pedidos")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -224,6 +224,11 @@ namespace LachoneteApi.Migrations
             modelBuilder.Entity("LachoneteApi.Models.Pedido", b =>
                 {
                     b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("LachoneteApi.Models.Usuario", b =>
+                {
+                    b.Navigation("Pedidos");
                 });
 #pragma warning restore 612, 618
         }
