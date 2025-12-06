@@ -2,14 +2,32 @@
   <div class="modal-conteudo" (click)="$event.stopPropagation()">
     <h2>Alterar senha</h2>
     <form [formGroup]="form" (submit)="alterarSenha()">
-      <label for="senhaAtual">Senha atual *</label>
-      <input type="password" id="senhaAtual" name="senhaAtual" formControlName="senhaAtual"/>
+      <div>
+        <label for="senhaAtual">Senha atual *</label>
+        <input type="password" id="senhaAtual" name="senhaAtual" formControlName="senhaAtual"/>
 
-      <label for="novaSenha">Nova senha *</label>
-      <input type="password" id="novaSenha" name="novaSenha" formControlName="novaSenha"/>
+        @if (form.get('senhaAtual')?.hasError('required') && form.get('senhaAtual')?.dirty) {
+          <span class="mensagem-erro-form-field">Digite sua senha atual!</span>
+        }
+      </div>
 
-      <label for="confirmarNovaSenha">Confirmar nova senha *</label>
-      <input type="password" id="confirmarNovaSenha" name="confirmarNovaSenha" formControlName="confirmarNovaSenha"/>
+      <div>
+        <label for="novaSenha">Nova senha *</label>
+        <input type="password" id="novaSenha" name="novaSenha" formControlName="novaSenha"/>
+
+        @if (form.get('novaSenha')?.hasError('required') && form.get('novaSenha')?.dirty) {
+          <span class="mensagem-erro-form-field">Digite a sua nova senha!</span>
+        }
+      </div>
+
+      <div>
+        <label for="confirmarNovaSenha">Confirmar nova senha *</label>
+        <input type="password" id="confirmarNovaSenha" name="confirmarNovaSenha" formControlName="confirmarNovaSenha"/>
+
+        @if (form.get('confirmarNovaSenha')?.hasError('required') && form.get('confirmarNovaSenha')?.dirty) {
+          <span class="mensagem-erro-form-field">Confirme sua nova senha!</span>
+        }
+      </div>
 
       @if (mensagemDeErro !== '') {
         <span class="mensagem-erro">{{ mensagemDeErro }}</span>

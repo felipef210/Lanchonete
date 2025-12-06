@@ -23,20 +23,30 @@
       flex-direction: column;
       gap: 10px;
 
-      input {
-        width: 100%;
+      div {
         margin-bottom: .5rem;
-        background-color: #FBFAF9;
-        border: 1px solid rgb(165, 164, 164);
-        border-radius: .6rem;
-        padding: .7rem 1rem;
-        box-sizing: border-box;
-        font-size: 17px;
 
-        &:focus {
-          border: 1px solid var(--fonte-laranja);
-          outline: 2px solid var(--fonte-laranja);
+        input {
+          width: 100%;
+          margin: .2rem 0;
+          background-color: #FBFAF9;
+          border: 1px solid rgb(165, 164, 164);
+          border-radius: .6rem;
+          padding: .7rem 1rem;
+          box-sizing: border-box;
+          font-size: 17px;
+
+          &:focus {
+            border: 1px solid var(--fonte-laranja);
+            outline: 2px solid var(--fonte-laranja);
+          }
         }
+      }
+
+      .mensagem-erro-form-field {
+        color: rgb(209, 0, 0);
+        font-size: 14px;
+        margin-left: .2rem;
       }
 
       .btn {

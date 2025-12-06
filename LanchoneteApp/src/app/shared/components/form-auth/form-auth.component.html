@@ -5,24 +5,58 @@
 
   <fieldset class="campos">
     @if (tela() !== 'login') {
-      <label for="nome">Nome Completo</label>
-      <input type="text" id="nome" name="nome" placeholder="Seu nome" formControlName="nome"/>
+      <div>
+        <label for="nome">Nome Completo *</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome" formControlName="nome"/>
 
-      <label for="email">Telefone</label>
-      <input type="tel" id="telefone" name="telefone" mask="(00) 0000-0000||(00) 00000-0000"  placeholder="(XX) 9XXXX-XXXX" formControlName="telefone"/>
+        @if (form.get('nome')?.hasError('required') && form.get('nome')?.dirty) {
+          <span class="mensagem-erro-form-field">O nome é obrigatório!</span>
+        }
+      </div>
+
+      <div>
+        <label for="email">Telefone *</label>
+        <input type="tel" id="telefone" name="telefone" mask="(00) 0000-0000||(00) 00000-0000" placeholder="(XX) 9XXXX-XXXX" formControlName="telefone"/>
+
+        @if (form.get('telefone')?.hasError('required') && form.get('telefone')?.dirty) {
+          <span class="mensagem-erro-form-field">O telefone é obrigatório!</span>
+        }
+      </div>
     }
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="seuemail@email.com" formControlName="email"/>
+    <div>
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" placeholder="seuemail@email.com" formControlName="email"/>
+
+      @if (form.get('email')?.hasError('required') && form.get('email')?.dirty && tela() !== 'login') {
+        <span class="mensagem-erro-form-field">O e-mail é obrigatório!</span>
+      }
+    </div>
 
     @if (tela() !== 'editar-perfil') {
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="********" formControlName="senha"/>
+      <div>
+        <label for="senha">Senha *</label>
+        <input type="password" id="senha" name="senha" placeholder="********" formControlName="senha"/>
+
+        @if (form.get('senha')?.hasError('required') && form.get('senha')?.dirty && tela() !== 'login') {
+          <span class="mensagem-erro-form-field">A senha é obrigatória!</span>
+        }
+
+        @else if (form.get('senha')?.hasError('pattern') && form.get('senha')?.dirty && tela() !== 'login') {
+          <span class="mensagem-erro-form-field">Sua senha deve possuir 8 caracteres, incluindo letra maíuscula, minúscula, número e caractere especial!</span>
+        }
+      </div>
     }
 
     @if (tela() === 'cadastro') {
-      <label for="confirmarSenha">Confirmar Senha</label>
-      <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="********" formControlName="confirmarSenha"/>
+      <div>
+        <label for="confirmarSenha">Confirmar Senha *</label>
+        <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="********" formControlName="confirmarSenha"/>
+
+        @if (form.get('confirmarSenha')?.hasError('required') && form.get('confirmarSenha')?.dirty) {
+          <span class="mensagem-erro-form-field">Confirme sua senha!</span>
+        }
+      </div>
     }
   </fieldset>
 

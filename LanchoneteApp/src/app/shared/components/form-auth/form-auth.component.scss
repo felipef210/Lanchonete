@@ -36,27 +36,40 @@
     align-items: flex-start;
     gap: 5px;
 
-    input {
+    div {
       width: 100%;
+      text-align: start;
       margin-bottom: .5rem;
-      background-color: #FBFAF9;
-      border: 1px solid rgb(165, 164, 164);
-      border-radius: .6rem;
-      padding: .7rem 1rem;
-      box-sizing: border-box;
-      font-size: 17px;
 
-      &:focus {
-        border: 1px solid var(--fonte-laranja);
-        outline: 2px solid var(--fonte-laranja);
+      input {
+        width: 100%;
+        margin-top: .2rem;
+        background-color: #FBFAF9;
+        border: 1px solid rgb(165, 164, 164);
+        border-radius: .6rem;
+        padding: .7rem 1rem;
+        box-sizing: border-box;
+        font-size: 17px;
+
+        &:focus {
+          border: 1px solid var(--fonte-laranja);
+          outline: 2px solid var(--fonte-laranja);
+        }
       }
     }
+
   }
 
   .mensagem-erro {
     text-align: center;
     color: red;
     margin-bottom: 1rem;
+  }
+
+  .mensagem-erro-form-field {
+    color: rgb(209, 0, 0);
+    font-size: 14px;
+    margin-left: .2rem;
   }
 
   .container-btn {
