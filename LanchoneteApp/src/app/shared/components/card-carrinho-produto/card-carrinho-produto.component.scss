@@ -73,3 +73,32 @@
     }
   }
 }
+
+
+@media screen and (max-width: 500px) {
+  .preco {
+    button {
+      width: 18px;
+      height: 18px;
+      background-size: 18px !important;
+    }
+
+    span {
+      font-weight: 700;
+      font-size: 1rem !important;
+    }
+  }
+
+  .quantidade {
+    button {
+      padding: .1rem .4rem !important;
+      border-radius: .4rem !important;
+      font-size: 18px !important;
+      font-weight: 600;
+    }
+
+    span {
+      font-size: 1rem !important;
+    }
+  }
+}

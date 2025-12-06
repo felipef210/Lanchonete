@@ -158,5 +158,14 @@
     .redirecionamento {
       font-size: 14px;
     }
+
+    .container-btn {
+      flex-direction: column;
+      gap: 1px;
+
+      .btn, .btn-secundario {
+        width: 100%;
+      }
+    }
   }
 }

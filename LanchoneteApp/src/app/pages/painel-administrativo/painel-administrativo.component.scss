@@ -8,7 +8,6 @@
   margin-bottom: 2rem;
   padding: .3rem;
   border-radius: .6rem;
-  display: inline;
   background-color: #F8F3ED;
 
   .btn-produtos, .btn-pedidos {
@@ -40,7 +39,6 @@
   }
 
   .btn-pedidos {
-    position: absolute;
     background-image: url('../../../../public/carrinho-cinza.png');
     background-position: 35px center;
 
@@ -53,7 +51,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      left: 15px;
+      top: -5px;
       background-color: var(--fonte-laranja);
       color: var(--fonte-branca);
       border-radius: 1rem;
@@ -246,7 +244,7 @@ tbody tr + tr {
     gap: 40px;
 
     .lista-produtos {
-      width: 675px !important;
+      width: 600px !important;
     }
   }
 }

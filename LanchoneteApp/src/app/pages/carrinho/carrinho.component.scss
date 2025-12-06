@@ -34,3 +34,16 @@ h2 {
     text-align: left;
   }
 
+@media screen and (max-width: 768px) {
+  .com-produtos {
+    flex-direction: column;
+
+    .secao-itens {
+      width: 100%;
+    }
+
+    app-resumo-pedido {
+      width: 100%;
+    }
+  }
+}

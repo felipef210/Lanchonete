@@ -35,10 +35,12 @@
     }
 
     .itens {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
       gap: 20px;
       margin: 3rem 0;
+      align-items: flex-start;
+      justify-items: flex-start;
     }
   }
 }
@@ -57,9 +59,16 @@
   }
 
   .itens {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
-    align-items: center;
+    align-items: center !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1307px) {
+  .itens {
+    justify-content: center !important;
+    justify-items: center !important;
   }
 }
 

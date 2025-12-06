@@ -1,6 +1,7 @@
 .rodape {
   padding: 1rem 1rem;
   background-color: #FFFFFF;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -10,6 +11,7 @@
     display: flex;
     gap: 250px;
     padding: 2rem;
+    box-sizing: border-box;
 
     .coluna-1 {
       .logo {
@@ -89,6 +91,7 @@
   .direitos {
     border-top: 1px solid rgb(204, 204, 204);
     width: 1200px;
+    box-sizing: border-box;
 
     padding: 2rem;
     p {
@@ -96,6 +99,23 @@
       text-align: center;
     }
   }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .rodape {
+    padding: 1rem 3rem !important;
+
+    .colunas {
+      width: 100% !important;
+      gap: 0px !important;
+      justify-content: space-between;
+    }
+
+    .direitos {
+      width: 100% !important;
+    }
+  }
+
 }
 
 @media screen and (max-width: 768px) {
