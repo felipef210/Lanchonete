@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal, OnChanges, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { Component, ElementRef, inject, input, InputSignal, OnChanges, OnInit, output, OutputEmitterRef, ViewChild } from '@angular/core';
 import { NgxMaskDirective } from 'ngx-mask';
 import { CriarProdutoDto, EditarProdutoDto, ProdutoDto } from '../../models/produto.models';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,6 +16,8 @@ export class FormProdutoComponent implements OnInit, OnChanges {
   imagemSelecionada!: File;
 
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
+
+  @ViewChild('inputFile') inputFile!: ElementRef<HTMLInputElement>;
 
   form!: FormGroup;
 
@@ -58,12 +60,15 @@ export class FormProdutoComponent implements OnInit, OnChanges {
       if (!this.produto()) {
         this.adicionarProduto.emit(dto);
         this.form.reset();
-        this.form.get('imagem')?.patchValue(null);
+        this.inputFile.nativeElement.value = '';
+        this.imagemSelecionada = undefined!;
         return;
       }
 
       this.editarProduto.emit(dto as EditarProdutoDto);
       this.form.reset();
+      this.inputFile.nativeElement.value = '';
+      this.imagemSelecionada = undefined!;
     }
   }
 

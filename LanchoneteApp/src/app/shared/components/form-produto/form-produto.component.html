@@ -22,14 +22,15 @@
   />
 
   <label for="imagem">Imagem *</label>
-  <input type="file" id="imagem" name="imagem" (change)="onFileSelected($event)"/>
+  <input #inputFile type="file" id="imagem" name="imagem" (change)="onFileSelected($event)"/>
 
   <label for="nome">Categoria *</label>
   <select formControlName="categoria">
     <option value="null" disabled selected>Selecione uma categoria...</option>
     <option value="1">Lanches</option>
     <option value="2">Sobremesas</option>
-    <option value="3">Bebidas</option>
+    <option value="3">Acompanhamentos</option>
+    <option value="4">Bebidas</option>
   </select>
 
   <button type="submit" [disabled]="form.invalid">{{ produto() !== undefined ? 'Editar' : 'Adicionar' }}</button>

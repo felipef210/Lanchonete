@@ -20,7 +20,8 @@ public class Context : DbContext
         modelBuilder.Entity<Categoria>().HasData(
             new Categoria { Id = 1, Nome = "Lanches" },
             new Categoria { Id = 2, Nome = "Sobremesas" },
-            new Categoria { Id = 3, Nome = "Bebidas" }
+            new Categoria { Id = 3, Nome = "Acompanhamentos" },
+            new Categoria { Id = 4, Nome = "Bebidas" }
         );
     }
 

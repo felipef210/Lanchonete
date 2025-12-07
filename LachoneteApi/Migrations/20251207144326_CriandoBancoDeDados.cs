@@ -121,7 +121,8 @@ namespace LachoneteApi.Migrations
                 {
                     { 1, "Lanches" },
                     { 2, "Sobremesas" },
-                    { 3, "Bebidas" }
+                    { 3, "Acompanhamentos" },
+                    { 4, "Bebidas" }
                 });
 
             migrationBuilder.CreateIndex(

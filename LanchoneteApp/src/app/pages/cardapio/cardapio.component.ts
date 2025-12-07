@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './cardapio.component.scss'
 })
 export class CardapioComponent implements OnInit {
-  itens: string[] = ['Todos', 'Lanches', 'Sobremesas', 'Bebidas']
+  itens: string[] = ['Todos', 'Lanches', 'Sobremesas', 'Acompanhamentos', 'Bebidas']
   selectedIndex = 0;
   produtos: ProdutoDto[] = [];
 

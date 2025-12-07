@@ -3,7 +3,6 @@ using System;
 using LachoneteApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LachoneteApi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20251206171222_CriandoBancoDeDados")]
-    partial class CriandoBancoDeDados
+    partial class ContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +52,11 @@ namespace LachoneteApi.Migrations
                         new
                         {
                             Id = 3,
+                            Nome = "Acompanhamentos"
+                        },
+                        new
+                        {
+                            Id = 4,
                             Nome = "Bebidas"
                         });
                 });

@@ -47,7 +47,7 @@ public class ProdutoService : IProdutoService
         var produtos = await _produtoRepository.ListarProdutos();
         var query = produtos.AsQueryable();
 
-        if (categoria > 0 && categoria < 4)
+        if (categoria > 0 && categoria < 5)
             query = query.Where(p => p.CategoriaId == categoria);
 
         var produtosFiltrados = _mapper.Map<List<ProdutoDto>>(query);
