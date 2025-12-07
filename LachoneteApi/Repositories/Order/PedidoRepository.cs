@@ -1,4 +1,5 @@
 using LachoneteApi.Data;
+using LachoneteApi.Enums;
 using LachoneteApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,9 @@ public class PedidoRepository : IPedidoRepository
             .Include(x => x.Cliente)
             .Include(p => p.Itens)
             .ThenInclude(i => i.Produto)
+            .OrderBy(p => p.Status != StatusPedidoEnum.Aberto) 
+            .ThenBy(p => p.Status == StatusPedidoEnum.Aberto ? p.DataHora : DateTime.MinValue)
+            .ThenByDescending(p => p.Status == StatusPedidoEnum.Finalizado ? p.DataHora : DateTime.MinValue)
             .ToListAsync();
     }
 
@@ -50,6 +54,9 @@ public class PedidoRepository : IPedidoRepository
             .Include(p => p.Itens)
             .ThenInclude(i => i.Produto)
             .Where(p => p.ClienteId == usuarioId)
+            .OrderBy(p => p.Status != StatusPedidoEnum.Aberto) 
+            .ThenBy(p => p.Status == StatusPedidoEnum.Aberto ? p.DataHora : DateTime.MinValue)
+            .ThenByDescending(p => p.Status == StatusPedidoEnum.Finalizado ? p.DataHora : DateTime.MinValue)
             .ToListAsync();
     }
 
