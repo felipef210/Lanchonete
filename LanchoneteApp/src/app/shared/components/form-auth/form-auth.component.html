@@ -34,9 +34,10 @@
     </div>
 
     @if (tela() !== 'editar-perfil') {
-      <div>
+      <div class="campo-com-icone">
         <label for="senha">Senha *</label>
-        <input type="password" id="senha" name="senha" placeholder="********" formControlName="senha"/>
+        <input [type]="mostrarSenha ? 'text' : 'password'" id="senha" name="senha" placeholder="********" formControlName="senha"/>
+        <button class="btn-exibir-ocultar-senha" [class.exibindo]="mostrarSenha" type="button" (click)="mostrarSenha = !mostrarSenha"></button>
 
         @if (form.get('senha')?.hasError('required') && form.get('senha')?.dirty && tela() !== 'login') {
           <span class="mensagem-erro-form-field">A senha é obrigatória!</span>
@@ -49,9 +50,10 @@
     }
 
     @if (tela() === 'cadastro') {
-      <div>
+      <div class="campo-com-icone">
         <label for="confirmarSenha">Confirmar Senha *</label>
-        <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="********" formControlName="confirmarSenha"/>
+        <input [type]="mostrarConfirmarSenha ? 'text' : 'password'" id="confirmarSenha" name="confirmarSenha" placeholder="********" formControlName="confirmarSenha"/>
+        <button class="btn-exibir-ocultar-senha" [class.exibindo]="mostrarConfirmarSenha" type="button" (click)="mostrarConfirmarSenha = !mostrarConfirmarSenha"></button>
 
         @if (form.get('confirmarSenha')?.hasError('required') && form.get('confirmarSenha')?.dirty) {
           <span class="mensagem-erro-form-field">Confirme sua senha!</span>

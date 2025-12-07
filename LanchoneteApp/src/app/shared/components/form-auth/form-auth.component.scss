@@ -58,6 +58,30 @@
       }
     }
 
+    .campo-com-icone {
+      position: relative;
+      width: 100%;
+
+      .btn-exibir-ocultar-senha {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        background-color: transparent;
+        background-image: url('../../../../../public/mostrar.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 28px;
+        height: 28px;
+        background-size: 28px;
+        border: none;
+        cursor: pointer;
+
+        &.exibindo {
+          background-image: url('../../../../../public/ocultar.png');
+        }
+      }
+    }
+
   }
 
   .mensagem-erro {

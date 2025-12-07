@@ -11,18 +11,20 @@
         }
       </div>
 
-      <div>
+      <div class="campo-com-icone">
         <label for="novaSenha">Nova senha *</label>
-        <input type="password" id="novaSenha" name="novaSenha" formControlName="novaSenha"/>
+        <input [type]="mostrarSenha ? 'text' : 'password'" id="novaSenha" name="novaSenha" formControlName="novaSenha"/>
+        <button class="btn-exibir-ocultar-senha" [class.exibindo]="mostrarSenha" type="button" (click)="mostrarSenha = !mostrarSenha"></button>
 
         @if (form.get('novaSenha')?.hasError('required') && form.get('novaSenha')?.dirty) {
           <span class="mensagem-erro-form-field">Digite a sua nova senha!</span>
         }
       </div>
 
-      <div>
+      <div class="campo-com-icone">
         <label for="confirmarNovaSenha">Confirmar nova senha *</label>
-        <input type="password" id="confirmarNovaSenha" name="confirmarNovaSenha" formControlName="confirmarNovaSenha"/>
+        <input [type]="mostrarConfirmarSenha ? 'text' : 'password'" id="confirmarNovaSenha" name="confirmarNovaSenha" formControlName="confirmarNovaSenha"/>
+        <button class="btn-exibir-ocultar-senha" [class.exibindo]="mostrarConfirmarSenha" type="button" (click)="mostrarConfirmarSenha = !mostrarConfirmarSenha"></button>
 
         @if (form.get('confirmarNovaSenha')?.hasError('required') && form.get('confirmarNovaSenha')?.dirty) {
           <span class="mensagem-erro-form-field">Confirme sua nova senha!</span>

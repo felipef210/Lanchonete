@@ -32,6 +32,9 @@ export class FormAuthComponent implements OnInit, OnChanges {
   passwordRegex: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*\\-_])[A-Za-z\\d!@#$%^&*\\-_]{8,}$';
   phoneRegex: string = '^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$';
 
+  mostrarSenha: boolean = false;
+  mostrarConfirmarSenha: boolean = false;
+
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
   form!: FormGroup;

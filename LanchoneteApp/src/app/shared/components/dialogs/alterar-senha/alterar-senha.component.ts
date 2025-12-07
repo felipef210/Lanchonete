@@ -14,8 +14,9 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 export class AlterarSenhaComponent implements OnInit {
   fecharModal: OutputEmitterRef<void> = output<void>();
   mensagemDeErro: string = '';
-
   passwordRegex: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*\\-_])[A-Za-z\\d!@#$%^&*\\-_]{8,}$';
+  mostrarSenha: boolean = false;
+  mostrarConfirmarSenha: boolean = false;
 
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly authService: AuthService = inject(AuthService);
