@@ -79,12 +79,14 @@ export class FormAuthComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    const email = this.form.get('email')?.value?.toLowerCase() ?? '';
 
     if(this.tela() === 'cadastro') {
       const formValue: CadastroDto = {
-        ...this.form.value,
-        email
+        nome: this.form.get('nome')?.value?.trim() ?? '',
+        telefone: this.form.get('telefone')?.value?.trim() ?? '',
+        email: this.form.get('email')?.value?.trim().toLowerCase() ?? '',
+        senha: this.form.get('senha')?.value?.trim() ?? '',
+        confirmarSenha: this.form.get('confirmarSenha')?.value?.trim() ?? ''
       };
 
       this.cadastroSubmit.emit(formValue);
@@ -93,8 +95,9 @@ export class FormAuthComponent implements OnInit, OnChanges {
 
     else if (this.tela() === 'editar-perfil') {
       const formValue: EditarPerfilDto = {
-        ...this.form.value,
-        email
+        nome: this.form.get('nome')?.value?.trim() ?? '',
+        telefone: this.form.get('telefone')?.value?.trim() ?? '',
+        email: this.form.get('email')?.value?.trim().toLowerCase() ?? '',
       }
 
       this.editarPerfilSubmit.emit(formValue);
@@ -102,7 +105,7 @@ export class FormAuthComponent implements OnInit, OnChanges {
     }
 
     const formValue: LoginDto = {
-      email: email,
+      email: this.form.get('email')?.value?.trim().toLowerCase() ?? '',
       senha: this.form.get('senha')?.value
     };
 
