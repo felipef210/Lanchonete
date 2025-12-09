@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:5287'
+  apiUrl: 'https://lanchonete-5g07.onrender.com'
 };
