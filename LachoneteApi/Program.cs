@@ -16,14 +16,20 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration["DbConnection"];
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new Exception("A connection string 'DbConnection' não foi encontrada!");
+}
+
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<Context>(options => {
-        options.UseNpgsql(builder.Configuration["DbConnection"]);
-});
+builder.Services.AddDbContext<Context>(options =>
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -80,11 +86,18 @@ builder.Services.AddAuthorization(options =>
     );
 });
 
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<Context>();
+    db.Database.Migrate();    
 }
 
 app.UseHttpsRedirection();

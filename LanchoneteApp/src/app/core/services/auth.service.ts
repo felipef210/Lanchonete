@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import { CadastroDto, EditarPerfilDto, LoginDto, PerfilDto, RedefinirSenhaDto } from '../../shared/models/usuario.models';
 import { jwtDecode } from 'jwt-decode';

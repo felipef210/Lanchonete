@@ -1,7 +1,7 @@
 import { StatusPedidoEnum } from './../../shared/enums/StatusPedidoEnum';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { PedidoDto } from '../../shared/models/pedido.models';
 
