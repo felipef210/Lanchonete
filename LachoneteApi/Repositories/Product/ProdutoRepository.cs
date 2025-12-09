@@ -25,11 +25,22 @@ public class ProdutoRepository : IProdutoRepository
             .ToListAsync();
     }
 
+    public IQueryable<Produto> FiltrarPorCategoria(int categoria)
+    {
+        return Query().Where(p => p.Categoria.Id == categoria);
+    }
+
+    public IQueryable<Produto> FiltrarPorNome(string nome)
+    {
+        return Query().Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
+    }
+
     public async Task AdicionarProduto(Produto produto)
     {
         _context.Produtos.Add(produto);
         await _context.SaveChangesAsync();
     }
+    
 
     public async Task Salvar()
     {
@@ -45,5 +56,12 @@ public class ProdutoRepository : IProdutoRepository
         
         _context.Produtos.Remove(produto);
         await Salvar();
+    }
+
+    public IQueryable<Produto> Query()
+    {
+        return _context.Produtos
+            .Include(p => p.Categoria)
+            .AsQueryable();
     }
 }

@@ -42,6 +42,13 @@ public class ProdutoController : Controller
         return Ok(produtosFiltrados);
     }
 
+    [HttpGet("filtroPorNome")]
+    public async Task<ActionResult<List<ProdutoDto>>> FiltrarPorNome(int page = 1, int pageSize = 5, string? nome = null)
+    {
+        var produtosFiltrados = await _produtoService.FiltrarPorNome(page, pageSize, nome);
+        return Ok(produtosFiltrados);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ProdutoDto>> AdicionarProduto([FromForm] CriarProdutoDto criarProdutoDto)
     {

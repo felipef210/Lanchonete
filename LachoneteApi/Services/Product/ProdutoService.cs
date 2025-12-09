@@ -1,10 +1,12 @@
 using AutoMapper;
+using LachoneteApi.Dto;
 using LachoneteApi.Dto.Product;
 using LachoneteApi.Exceptions;
 using LachoneteApi.Models;
 using LachoneteApi.Repositories.Product;
 using LachoneteApi.Services.Azure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LachoneteApi.Services.Product;
 
@@ -44,15 +46,40 @@ public class ProdutoService : IProdutoService
 
     public async Task<List<ProdutoDto>> FiltrarPorCategoria(int categoria)
     {
-        var produtos = await _produtoRepository.ListarProdutos();
-        var query = produtos.AsQueryable();
+        if (categoria <= 0)
+            return new List<ProdutoDto>();
 
-        if (categoria > 0 && categoria < 5)
-            query = query.Where(p => p.CategoriaId == categoria);
+        var query = _produtoRepository.FiltrarPorCategoria(categoria);
 
-        var produtosFiltrados = _mapper.Map<List<ProdutoDto>>(query);
+        var produtos = await query.ToListAsync();
 
-        return produtosFiltrados;
+        return _mapper.Map<List<ProdutoDto>>(produtos);
+    }
+
+    public async Task<PaginacaoDto<ProdutoDto>> FiltrarPorNome(int page, int pageSize, string nome)
+    {
+        IQueryable<Produto> query;
+
+        if (string.IsNullOrWhiteSpace(nome))
+            query = _produtoRepository.Query();
+            
+        else
+            query = _produtoRepository.FiltrarPorNome(nome);
+
+        var totalItems = await query.CountAsync();
+
+        var produtos = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PaginacaoDto<ProdutoDto>
+        {
+            Page = page,
+            PageSize = pageSize,
+            TotalItems = totalItems,
+            Items = _mapper.Map<List<ProdutoDto>>(produtos)
+        };
     }
 
     public async Task<ProdutoDto> AdicionarProduto([FromForm] CriarProdutoDto criarProdutoDto)

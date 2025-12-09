@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
 import { CriarProdutoDto, EditarProdutoDto, ProdutoDto } from '../../shared/models/produto.models';
+import { PaginacaoDto } from '../../shared/models/paginacao.models';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,12 @@ export class ProdutosService {
 
   filtrarProdutos(categoria: number): Observable<ProdutoDto[]> {
     return this.http.get<ProdutoDto[]>(`${this.url}/filtro`, { params: { categoria } });
+  }
+
+  filtrarPorNome(nome: string, page: number, pageSize: number): Observable<PaginacaoDto<ProdutoDto>> {
+    return this.http.get<PaginacaoDto<ProdutoDto>>(`${this.url}/filtroPorNome`, {
+      params: { nome, page, pageSize }
+    });
   }
 
   adicionarProduto(produto: CriarProdutoDto): Observable<ProdutoDto> {

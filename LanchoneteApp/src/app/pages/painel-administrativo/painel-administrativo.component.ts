@@ -28,6 +28,11 @@ export class PainelAdministrativoComponent implements OnInit {
   modalAberto = false;
   modalExcluirPedidoAberto = false;
 
+  paginaAtual: number = 1;
+  pageSize: number = 5;
+  totalPages: number = 1;
+  ultimoNomePesquisado: string = '';
+
   private produtosSubject = new BehaviorSubject<ProdutoDto[]>([]);
   private pedidosSubject = new BehaviorSubject<PedidoDto[]>([]);
   private pedidosEmAbertoSubject = new BehaviorSubject<PedidoDto[]>([]);
@@ -47,11 +52,15 @@ export class PainelAdministrativoComponent implements OnInit {
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
 
   ngOnInit() {
-    this.carregarProdutosPedidos();
-
+    this.carregarProdutosPaginados();
+    this.carregarPedidos();
     this.pedidosEmAberto$.subscribe(lista => {
       this.pedidosEmAbertoCount = lista.length;
     });
+  }
+
+  get paginasArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   selecionarDisplay(botao: 'produtos' | 'pedidos') {
@@ -89,7 +98,8 @@ export class PainelAdministrativoComponent implements OnInit {
   adicionarProduto(produto: CriarProdutoDto) {
     this.produtosService.adicionarProduto(produto).subscribe({
       next: () => {
-        this.carregarProdutosPedidos();
+        this.carregarPedidos();
+        this.carregarProdutosPaginados();
         this.snackBar.open('Produto adicionado!', '', {
           duration: 4000,
           verticalPosition: 'top',
@@ -107,7 +117,8 @@ export class PainelAdministrativoComponent implements OnInit {
     if (this.produtoSelecionado) {
       this.produtosService.editarProduto(produto, this.produtoSelecionado.id).subscribe({
         next: () => {
-          this.carregarProdutosPedidos();
+          this.carregarPedidos();
+          this.carregarProdutosPaginados();
           this.produtoSelecionado = undefined;
           this.snackBar.open('Produto editado!', '', {
           duration: 4000,
@@ -126,7 +137,8 @@ export class PainelAdministrativoComponent implements OnInit {
   deletarProduto(id: string) {
     this.produtosService.deletarProduto(id).subscribe({
       next: () => {
-        this.carregarProdutosPedidos();
+        this.carregarPedidos();
+        this.carregarProdutosPaginados();
         this.snackBar.open('Produto removido!', '', {
           duration: 4000,
           verticalPosition: 'top',
@@ -147,7 +159,8 @@ export class PainelAdministrativoComponent implements OnInit {
   editarPedido(id: string, status: StatusPedidoEnum) {
     this.pedidosService.editarPedido(id, status).subscribe({
       next: () => {
-        this.carregarProdutosPedidos();
+        this.carregarPedidos();
+        this.carregarProdutosPaginados();
         this.snackBar.open('Status atualizado!', '', {
           duration: 4000,
           verticalPosition: 'top',
@@ -168,7 +181,8 @@ export class PainelAdministrativoComponent implements OnInit {
   deletarPedido(id: string) {
     this.pedidosService.deletarPedido(id).subscribe({
       next: () => {
-        this.carregarProdutosPedidos();
+        this.carregarPedidos();
+        this.carregarProdutosPaginados();
         this.snackBar.open('Pedido removido!', '', {
           duration: 4000,
           verticalPosition: 'top',
@@ -215,9 +229,64 @@ export class PainelAdministrativoComponent implements OnInit {
     this.pedidoSelecionadoParaExclusao = undefined;
   }
 
-  private carregarProdutosPedidos() {
-    this.produto$ = this.produtosService.getProdutos();
+  filtrarPorNome(event: Event) {
+    const nome = (event.target as HTMLInputElement).value;
+
+    this.paginaAtual = 1;
+    this.carregarProdutosPaginados(nome);
+  }
+
+  paginaAnterior() {
+    if (this.paginaAtual > 1) {
+      this.paginaAtual--;
+      this.carregarProdutosPaginados(this.ultimoNomePesquisado);
+    }
+  }
+
+  proximaPagina() {
+    if (this.paginaAtual < this.totalPages) {
+      this.paginaAtual++;
+      this.carregarProdutosPaginados(this.ultimoNomePesquisado);
+    }
+  }
+
+  irParaPagina(pagina: number) {
+    this.paginaAtual = pagina;
+    this.carregarProdutosPaginados(this.ultimoNomePesquisado);
+  }
+
+  private carregarPedidos() {
     this.pedido$ = this.pedidosService.getPedidos();
     this.pedidosService.getPedidosEmAberto().subscribe(x => this.pedidosEmAbertoSubject.next(x));
+  }
+
+  private carregarProdutosPaginados(nome: string = '') {
+    this.ultimoNomePesquisado = nome;
+
+    this.produtosService.filtrarPorNome(nome, this.paginaAtual, this.pageSize)
+      .subscribe({
+        next: (res) => {
+          this.totalPages = res.totalPages;
+
+          if (res.totalPages === 0) {
+            this.paginaAtual = 1;
+            this.produtosSubject.next([]);
+            return;
+          }
+
+          if (this.paginaAtual > res.totalPages) {
+            this.paginaAtual = res.totalPages;
+            this.produtosService.filtrarPorNome(this.ultimoNomePesquisado, this.paginaAtual, this.pageSize)
+              .subscribe({
+                next: r2 => this.produtosSubject.next(r2.items),
+                error: err2 => console.log(err2)
+              });
+            return;
+          }
+
+          this.produtosSubject.next(res.items);
+        },
+        error: err => console.log(err)
+      });
   }
 }

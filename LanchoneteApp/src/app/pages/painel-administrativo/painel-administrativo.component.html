@@ -25,7 +25,9 @@
           {{ produtos?.length }}
           {{ produtos?.length === 1 ? 'produto' : 'produtos' }}
           {{ produtos?.length === 1 ? 'cadastrado' : 'cadastrados' }}
-        </span>
+        </span><br>
+
+        <input type="text" placeholder="Procure o produto..." (input)="filtrarPorNome($event)"/>
 
         <div class="produtos">
           @if (produto$ | async) {
@@ -36,6 +38,20 @@
             }
           }
         </div>
+
+        @if (totalPages > 1) {
+          <div class="paginas">
+            <button [disabled]="paginaAtual === 1" (click)="paginaAnterior()">&laquo;</button>
+
+            <ul class="paginacao">
+              @for (pagina of paginasArray; track pagina) {
+                <li [class.ativa]="paginaAtual === pagina" (click)="irParaPagina(pagina)">{{ pagina }}</li>
+              }
+            </ul>
+
+            <button [disabled]="paginaAtual === totalPages" (click)="proximaPagina()">&raquo;</button>
+          </div>
+        }
       </div>
     </section>
   }
