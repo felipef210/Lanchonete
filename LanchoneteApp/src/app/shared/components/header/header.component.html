@@ -9,7 +9,11 @@
       <ul class="autenticado">
         <li><span class="menu-toggle" (click)="menuAberto = !menuAberto">Olá, {{ authService.getNome().split(' ')[0] }}</span></li>
         @if (authService.getRole() === 'admin') {
-          <li><a class="link-admin" routerLink="/administrativo"></a></li>
+          <li><a class="link-admin" routerLink="/administrativo">
+            @if (existePedidosEmAberto$ | async) {
+              <div class="notificacao"></div>
+            }
+          </a></li>
         }
         <li><a class="link-carrinho" routerLink="/carrinho">
           @if (itens > 0) {

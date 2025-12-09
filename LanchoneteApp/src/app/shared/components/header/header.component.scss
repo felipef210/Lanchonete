@@ -64,10 +64,24 @@
       }
 
       .link-admin {
+        position: relative;
         background-image: url('../../../../../public/icone-admin.png');
 
         &:hover {
           background-image: url('../../../../../public/icone-admin-branco.png');
+
+          .notificacao {
+            background-color: var(--fonte-branca);
+          }
+        }
+
+        .notificacao {
+          position: absolute;
+          right: 7px;
+          background-color: var(--fonte-laranja);
+          width: 10px;
+          height: 10px;
+          border-radius: 1rem;
         }
       }
 
