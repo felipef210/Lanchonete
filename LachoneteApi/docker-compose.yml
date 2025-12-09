@@ -1,0 +1,9 @@
+ services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - DbConnection=Host=dpg-d4s7b7uuk2gs73a6vcsg-a.oregon-postgres.render.com;Database=lanchonete_db;Username=lanchonete_db_izwh_user;Password=gKPP6LbGZQCFLSygsoqLck1GZLbMXQik
