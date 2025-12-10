@@ -10,11 +10,16 @@ using LachoneteApi.Services.Order;
 using LachoneteApi.Services.Product;
 using LachoneteApi.Services.Token;
 using LachoneteApi.Services.User;
+using System.Globalization;
+
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+var cultureInfo = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var connectionString = builder.Configuration["DbConnection"];
 
