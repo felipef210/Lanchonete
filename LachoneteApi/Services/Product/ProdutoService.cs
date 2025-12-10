@@ -47,7 +47,7 @@ public class ProdutoService : IProdutoService
     public async Task<List<ProdutoDto>> FiltrarPorCategoria(int categoria)
     {
         if (categoria <= 0 || categoria >= 5)
-            return _mapper.Map<List<ProdutoDto>>(_produtoRepository.ListarProdutos());
+            return _mapper.Map<List<ProdutoDto>>(await _produtoRepository.ListarProdutos());
 
         var query = _produtoRepository.FiltrarPorCategoria(categoria);
 
