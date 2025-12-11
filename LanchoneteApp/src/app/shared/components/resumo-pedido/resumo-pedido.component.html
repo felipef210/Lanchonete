@@ -5,7 +5,7 @@
     @for (item of itens(); track $index) {
       <div>
         <span class="item">{{ item.quantidade }}x {{ item.produtoNome }}</span>
-        <span class="preco">{{ item.quantidade * item.produtoPreco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+        <span class="preco">{{ item.quantidade * item.produtoPreco! | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
       </div>
     }
     @if (primeiraCompra()) {
@@ -27,7 +27,9 @@
 
     <div class="acoes">
       <button class="btn-principal" (click)="finalizarPedidoEmmiter.emit()">Finalizar Pedido</button>
-      <a class="btn-secundario" routerLink="/cardapio">Continuar Comprando</a>
+      @if (!editarPedido()) {
+        <a class="btn-secundario" routerLink="/cardapio">Continuar Comprando</a>
+      }
     </div>
   </div>
 </section>

@@ -13,7 +13,7 @@ import { CardInlinePedidoComponent } from "../../shared/components/card-inline-p
 export class MeusPedidosComponent implements OnInit {
   private readonly pedidoService: PedidoService = inject(PedidoService);
 
-  pedidos!: PedidoDto[];
+  pedidos: PedidoDto[] = [];
 
   ngOnInit() {
     this.pedidoService.getPedidosPorUsuario().subscribe((pedidos) => {

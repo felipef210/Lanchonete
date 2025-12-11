@@ -1,7 +1,8 @@
-import { Component, input, InputSignal, Pipe } from '@angular/core';
+import { Component, inject, input, InputSignal, Pipe } from '@angular/core';
 import { PedidoDto } from '../../models/pedido.models';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { StatusPedidoEnum } from '../../enums/StatusPedidoEnum';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-card-inline-pedido',
@@ -12,6 +13,8 @@ import { StatusPedidoEnum } from '../../enums/StatusPedidoEnum';
 export class CardInlinePedidoComponent {
   pedido: InputSignal<PedidoDto> = input.required<PedidoDto>();
   StatusPedidoEnum = StatusPedidoEnum;
+
+  public readonly authService: AuthService = inject(AuthService);
 
   statusMap: Record<number, string> = {
     0: 'Aberto',

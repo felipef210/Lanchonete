@@ -1,0 +1,29 @@
+<app-pagina-sem-footer>
+  <h1>Editar Pedido</h1>
+
+  <div class="com-produtos">
+    <div class="secao-itens">
+      @for (item of itens; track $index) {
+        <app-card-carrinho-produto
+          [quantidade]="item.quantidade"
+          [produtoId]="item.produtoId!"
+          (aumentarQuantidade)="aumentar(item.produtoId!)"
+          (diminuirQuantidade)="diminuir(item.produtoId!)"
+          (deletarItem)="removerItem(item.produtoId!)"
+        >
+        </app-card-carrinho-produto>
+      }
+
+      <button class="btn-principal" (click)="abrirModalAdicionarItem()">
+        + Adicionar Item
+      </button>
+    </div>
+
+    <app-resumo-pedido
+      [editarPedido]="true"
+      [itens]="itens"
+      [primeiraCompra]="pedido.primeiroPedido"
+      (finalizarPedidoEmmiter)="salvarEdicao()">
+    </app-resumo-pedido>
+  </div>
+</app-pagina-sem-footer>

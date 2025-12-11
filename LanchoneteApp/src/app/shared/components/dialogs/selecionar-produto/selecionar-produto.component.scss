@@ -1,0 +1,61 @@
+.dialog {
+  position: relative;
+  background-color: white;
+  padding: 2rem;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .lista {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .produto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: .7rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+    background: white;
+    cursor: pointer;
+
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+    }
+
+    .texto-card {
+      text-align: start;
+      h4 {
+        margin: 0;
+        font-size: 1rem;
+        text-align: start;
+      }
+    }
+
+  }
+
+  .fechar {
+    position: absolute;
+    top: 36px;
+    right: 32px;
+    width: 28px;
+    height: 28px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: .4rem;
+    cursor: pointer;
+  }
+}
+

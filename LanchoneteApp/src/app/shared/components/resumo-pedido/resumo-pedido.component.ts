@@ -12,10 +12,11 @@ import { RouterLink } from "@angular/router";
 export class ResumoPedidoComponent {
   primeiraCompra: InputSignal<boolean> = input<boolean>(false);
   itens: InputSignal<ItemPedidoDto[]> = input.required<ItemPedidoDto[]>();
+  editarPedido: InputSignal<boolean> = input<boolean>(false);
   finalizarPedidoEmmiter: OutputEmitterRef<void> = output();
 
   get total(): number {
-    return this.itens().reduce((acc, item) => acc + (item.produtoPreco * item.quantidade), 0);
+    return this.itens().reduce((acc, item) => acc + (item.produtoPreco! * item.quantidade), 0);
   }
 
   get totalComDesconto(): number {

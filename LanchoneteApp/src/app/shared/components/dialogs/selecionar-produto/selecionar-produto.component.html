@@ -1,0 +1,17 @@
+<div class="dialog">
+  <h2>Selecione um produto</h2>
+
+  <div class="lista">
+    @for (produto of produtos; track produto.id) {
+      <button class="produto" (click)="selecionar(produto)">
+        <img [src]="produto.imagem" alt="">
+        <div class="texto-card">
+          <h4>{{ produto.nome }}</h4>
+          <span>{{ produto.preco | currency:'BRL' }}</span>
+        </div>
+      </button>
+    }
+  </div>
+
+  <button class="fechar" (click)="fechar()">X</button>
+</div>

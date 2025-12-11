@@ -10,6 +10,8 @@ import { isLoggedGuard } from './core/guards/is-logged.guard';
 import { noLoggedGuard } from './core/guards/no-logged.guard';
 import { adminGuard } from './core/guards/admin.guard';
 import { CarrinhoComponent } from './pages/carrinho/carrinho.component';
+import { DetalhesPedidoComponent } from './pages/detalhes-pedido/detalhes-pedido.component';
+import { EditarPedidoComponent } from './pages/editar-pedido/editar-pedido.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +19,8 @@ export const routes: Routes = [
   { path: 'cadastro', component: CadastroComponent, canActivate: [noLoggedGuard] },
   { path: 'cardapio', component: CardapioComponent },
   { path: 'administrativo', component: PainelAdministrativoComponent, canActivate: [adminGuard] },
+  { path: 'detalhes-pedido/:id', component: DetalhesPedidoComponent, canActivate: [adminGuard] },
+  { path: 'editar-pedido/:id', component: EditarPedidoComponent, canActivate: [adminGuard] },
   { path: 'perfil', component: EditarPerfilComponent, canActivate: [isLoggedGuard] },
   { path: 'meus-pedidos', component: MeusPedidosComponent, canActivate: [isLoggedGuard] },
   { path: 'carrinho', component: CarrinhoComponent, canActivate: [isLoggedGuard] },

@@ -10,6 +10,7 @@ public class Pedido
     public DateTime DataHora { get; set; } = DateTime.UtcNow;
     public Guid ClienteId { get; set; }
     public Usuario Cliente { get; set; } = null!;
+    public bool PrimeiroPedido { get; set; } = false;
     public StatusPedidoEnum Status { get; set; } = StatusPedidoEnum.Aberto;
     public decimal Total { get; set; }
     public List<ItemPedido> Itens { get; set; } = new();

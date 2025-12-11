@@ -5,6 +5,7 @@ export interface PedidoDto {
   cliente: string;
   dataHora: Date;
   status: StatusPedidoEnum;
+  primeiroPedido: boolean;
   itens: ItemPedidoDto[];
   total: number;
 }

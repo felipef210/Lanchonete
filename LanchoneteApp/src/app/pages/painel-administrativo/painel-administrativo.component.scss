@@ -176,6 +176,10 @@
 table {
   width: 100%;
   border-collapse: collapse;
+
+  .linha-tabela {
+    cursor: pointer;
+  }
 }
 
 thead tr {
@@ -239,13 +243,13 @@ tbody tr + tr {
   background: white;
 }
 
-.btn-delete {
+.btn-delete, .btn-edit {
   width: 32px;
   height: 32px;
   border-radius: .3rem;
   border: none;
   background-color: transparent;
-  background-image: url('../../../../public/deletar.png');
+
   background-repeat: no-repeat;
   background-size: 18px;
   background-position: center;
@@ -254,7 +258,34 @@ tbody tr + tr {
 
   &:hover {
     background-color: var(--fonte-laranja);
+
+  }
+}
+
+.btn-delete {
+  background-image: url('../../../../public/deletar.png');
+
+  &:hover {
     background-image: url('../../../../public/deletar-branco.png');
+  }
+}
+
+.btn-edit {
+  background-image: url('../../../../public/editar.png');
+
+  &:hover {
+    background-image: url('../../../../public/editar-branco.png');
+
+  }
+
+  &:disabled {
+    opacity: .4;
+
+    &:hover {
+      background-color: transparent !important;
+      background-image: url('../../../../public/editar.png') !important;
+      cursor: default;
+    }
   }
 }
 

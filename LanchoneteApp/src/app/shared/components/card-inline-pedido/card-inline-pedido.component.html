@@ -5,6 +5,9 @@
       <span class="data">
         {{ pedido().dataHora | date:'dd/MM/yyyy, HH:mm:ss' }}
       </span>
+      @if (authService.getRole() === 'admin') {
+        <br><span class="nome-cliente">{{ pedido().cliente }}</span>
+      }
     </div>
 
     <div class="status" [ngClass]="StatusPedidoEnum[pedido().status]">

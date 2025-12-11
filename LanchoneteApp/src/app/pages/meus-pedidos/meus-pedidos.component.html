@@ -7,6 +7,10 @@
     <h2 class="titulo">Meus Pedidos</h2>
     <p class="subtitulo">Acompanhe o status dos seus pedidos</p>
 
+    @if (pedidos.length === 0) {
+      <h2 class="mensagem-sem-itens">Sem pedidos para exibir</h2>
+    }
+
 
     @for (pedido of pedidos; track $index) {
       <app-card-inline-pedido [pedido]="pedido"></app-card-inline-pedido>

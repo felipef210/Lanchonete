@@ -56,9 +56,16 @@ public class PedidoController : Controller
 
     [HttpPatch("{id}")]
     [Authorize(Policy = "admin")]
-    public async Task<ActionResult<PedidoDto>> AtualizarPedido(Guid id, [FromBody] AtualizarPedidoDto dto)
+    public async Task<ActionResult<PedidoDto>> AtualizarPedido(Guid id, [FromBody] AtualizarStatusPedidoDto dto)
     {
-        var pedidoAtualizado = await _pedidoService.AtualizarPedido(id, dto);
+        var pedidoAtualizado = await _pedidoService.AtualizarStatusPedido(id, dto);
+        return Ok(pedidoAtualizado);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<PedidoDto>> EditarPedido(Guid id, [FromBody] EditarPedidoDto dto)
+    {
+        var pedidoAtualizado = await _pedidoService.EditarPedido(id, dto);
         return Ok(pedidoAtualizado);
     }
 

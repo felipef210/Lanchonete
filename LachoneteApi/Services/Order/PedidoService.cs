@@ -32,21 +32,22 @@ public class PedidoService : IPedidoService
 
         var usuario = await _usuarioRepository.ObterUsuarioComPedidos(usuarioLogado.Id);
 
-        bool aplicarDesconto = false;
+        bool primeiroPedido = false;
 
         if (usuario.Pedidos?.Count() == 0)
-            aplicarDesconto = true;
+            primeiroPedido = true;
         
         var pedido = _mapper.Map<Pedido>(criarPedidoDto);
         pedido.ClienteId = usuario.Id;
         pedido.Cliente = usuario;
+        pedido.PrimeiroPedido = primeiroPedido;
 
         await _pedidoRepository.CriarPedido(pedido); 
 
         pedido.Total = await AdicionarItensPedido(pedido, criarPedidoDto.Itens);
         pedido.Status = Enums.StatusPedidoEnum.Aberto;
 
-        if (aplicarDesconto)
+        if (primeiroPedido)
             pedido.Total *= 0.9m;
 
         await _pedidoRepository.SalvarPedido();
@@ -106,7 +107,7 @@ public class PedidoService : IPedidoService
         await _pedidoRepository.DeletarPedido(id);
     }
 
-    public async Task<PedidoDto> AtualizarPedido(Guid id, [FromBody] AtualizarPedidoDto atualizarPedidoDto)
+    public async Task<PedidoDto> AtualizarStatusPedido(Guid id, [FromBody] AtualizarStatusPedidoDto atualizarPedidoDto)
     {
         var usuario = await ObterUsuarioLogado();
         var pedido = await _pedidoRepository.GetPedidoById(id);
@@ -117,6 +118,31 @@ public class PedidoService : IPedidoService
         ValidaPermissao(pedido, usuario);
 
         pedido.Status = atualizarPedidoDto.Status;
+
+        await _pedidoRepository.SalvarPedido();
+
+        return _mapper.Map<PedidoDto>(pedido);
+    }
+
+    public async Task<PedidoDto> EditarPedido(Guid id, [FromBody] EditarPedidoDto editarPedidoDto)
+    {
+        var usuario = await ObterUsuarioLogado();
+        var pedido = await _pedidoRepository.GetPedidoById(id);
+
+        if (pedido is null)
+            throw new NaoEncontradoException($"Pedido não encontrado!");
+
+        if (pedido.Status == Enums.StatusPedidoEnum.Finalizado)
+            throw new ProibidoException("O pedido já foi finalizado!");
+
+        ValidaPermissao(pedido, usuario);
+
+        pedido.Itens.Clear();
+
+        pedido.Total = await AdicionarItensPedido(pedido, editarPedidoDto.Itens);
+
+        if (pedido.PrimeiroPedido)
+            pedido.Total *= 0.9m;
 
         await _pedidoRepository.SalvarPedido();
 
@@ -140,9 +166,9 @@ public class PedidoService : IPedidoService
             ?? throw new NaoEncontradoException("Usuário não encontrado!");
     }
 
-    private async Task<decimal> AdicionarItensPedido(Pedido pedido, List<CriarItemPedidoDto> itensDto)
+    private async Task<decimal> AdicionarItensPedido(Pedido pedido, IEnumerable<IItemPedidoDto> itensDto)
     {
-        if (itensDto.Count <= 0)
+        if (itensDto is null)
             throw new ParametroInvalidoException("Insira itens no seu pedido!");
 
         decimal total = 0;

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
-import { PedidoDto } from '../../shared/models/pedido.models';
+import { ItemPedidoDto, PedidoDto } from '../../shared/models/pedido.models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,10 @@ export class PedidoService {
 
   getPedidos(): Observable<PedidoDto[]> {
     return this.http.get<PedidoDto[]>(`${this.url}/listar`);
+  }
+
+  getPedidoById(id: string): Observable<PedidoDto> {
+    return this.http.get<PedidoDto>(`${this.url}/${id}`);
   }
 
   getPedidosPorUsuario(): Observable<PedidoDto[]> {
@@ -39,10 +43,14 @@ export class PedidoService {
     );
   }
 
-  editarPedido(id: string, status: StatusPedidoEnum) {
+  editarStatusPedido(id: string, status: StatusPedidoEnum) {
     return this.http.patch(`${this.url}/${id}`, { status }).pipe(
       tap(() => this.atualizarPedidosEmAberto())
     );
+  }
+
+  editarPedido(id: string, dto: { itens: { produtoId: string; quantidade: number }[] }) {
+    return this.http.put(`${this.url}/${id}`, dto);
   }
 
   deletarPedido(id: string): Observable<void> {

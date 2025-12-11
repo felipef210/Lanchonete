@@ -237,6 +237,7 @@
   -webkit-backdrop-filter: blur(0px);
 
 
+
   .logo h2 {
     color: white !important;
   }
@@ -252,10 +253,30 @@
     border-color: var(--fonte-laranja) !important;
   }
 
-  .link-admin,
-  .link-carrinho,
+  .link-admin {
+    background-image: url('../../../../../public/icone-admin-branco.png') !important;
+  }
+
+  .link-carrinho {
+    background-image: url('../../../../../public/carrinho-branco.png') !important;
+  }
+
   button {
-    filter: brightness(200%); // clareia os ícones
+    background-image: url('../../../../../public/logout-branco.png') !important;
+  }
+
+  .dropdown-menu {
+    ul {
+      li {
+        a {
+          color: black !important;
+
+          &:hover {
+            color: white !important;
+          }
+        }
+      }
+    }
   }
 }
 

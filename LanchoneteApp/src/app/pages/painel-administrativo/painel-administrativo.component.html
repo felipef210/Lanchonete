@@ -79,7 +79,7 @@
         <tbody>
           @if (pedido$ | async) {
             @for (pedido of pedidos; track $index) {
-              <tr>
+              <tr class="linha-tabela" (click)="abrirDetalhesPedido(pedido.id)">
                 <td>#{{ pedido.id.split('-')[0] }}</td>
                 <td>{{ pedido.cliente }}</td>
                 <td>{{ getQuantidadeTotal(pedido) }} {{ getQuantidadeTotal(pedido) === 1 ? 'item' : 'itens' }}</td>
@@ -92,13 +92,14 @@
                 <td>{{ formatarData(pedido.dataHora) }}</td>
 
                 <td class="acoes">
-                  <select (change)="editarPedido(pedido.id, +$any($event.target).value)">
+                  <select (click)="$event.stopPropagation()" (change)="editarStatusPedido(pedido.id, +$any($event.target).value)">
                     @for (status of statusMap| keyvalue; track status.key) {
                       <option [value]="status.key" [selected]="pedido.status === +status.key">{{ status.value }}</option>
                     }
                   </select>
 
-                  <button class="btn-delete" (click)="abrirModalPedido(pedido)"></button>
+                  <button class="btn-edit" [disabled]="pedido.status === 2" (click)="editarPedido(pedido.id); $event.stopPropagation()"></button>
+                  <button class="btn-delete" (click)="abrirModalPedido(pedido); $event.stopPropagation()"></button>
                 </td>
               </tr>
             }

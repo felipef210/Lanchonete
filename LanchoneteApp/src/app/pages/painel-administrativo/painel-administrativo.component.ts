@@ -11,6 +11,7 @@ import { PaginaSemFooterComponent } from "../../layout/pagina-sem-footer/pagina-
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { StatusPedidoEnum } from '../../shared/enums/StatusPedidoEnum';
 import { ConfirmacaoComponent } from "../../shared/components/dialogs/confirmacao/confirmacao.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-painel-administrativo',
@@ -49,6 +50,7 @@ export class PainelAdministrativoComponent implements OnInit {
 
   private readonly produtosService: ProdutosService = inject(ProdutosService);
   private readonly pedidosService: PedidoService = inject(PedidoService);
+  private readonly router: Router = inject(Router);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
 
   ngOnInit() {
@@ -61,6 +63,14 @@ export class PainelAdministrativoComponent implements OnInit {
 
   get paginasArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  abrirDetalhesPedido(id: string) {
+    this.router.navigate(['/detalhes-pedido', id]);
+  }
+
+  editarPedido(id: string) {
+    this.router.navigate(['/editar-pedido', id]);
   }
 
   selecionarDisplay(botao: 'produtos' | 'pedidos') {
@@ -156,8 +166,8 @@ export class PainelAdministrativoComponent implements OnInit {
     });
   }
 
-  editarPedido(id: string, status: StatusPedidoEnum) {
-    this.pedidosService.editarPedido(id, status).subscribe({
+  editarStatusPedido(id: string, status: StatusPedidoEnum) {
+    this.pedidosService.editarStatusPedido(id, status).subscribe({
       next: () => {
         this.carregarPedidos();
         this.carregarProdutosPaginados();
