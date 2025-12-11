@@ -63,49 +63,51 @@
       @let pedidos = pedido$ | async;
       <span class="subtitulo">{{ pedidos?.length }} {{ pedidos?.length === 1 ? 'pedido registrado' : 'pedidos registrados' }} </span>
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Itens</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Data</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
+      <div class="tabela-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Itens</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          @if (pedido$ | async) {
-            @for (pedido of pedidos; track $index) {
-              <tr class="linha-tabela" (click)="abrirDetalhesPedido(pedido.id)">
-                <td>#{{ pedido.id.split('-')[0] }}</td>
-                <td>{{ pedido.cliente }}</td>
-                <td>{{ getQuantidadeTotal(pedido) }} {{ getQuantidadeTotal(pedido) === 1 ? 'item' : 'itens' }}</td>
-                <td>{{ pedido.total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+          <tbody>
+            @if (pedido$ | async) {
+              @for (pedido of pedidos; track $index) {
+                <tr class="linha-tabela" (click)="abrirDetalhesPedido(pedido.id)">
+                  <td>#{{ pedido.id.split('-')[0] }}</td>
+                  <td>{{ pedido.cliente }}</td>
+                  <td>{{ getQuantidadeTotal(pedido) }} {{ getQuantidadeTotal(pedido) === 1 ? 'item' : 'itens' }}</td>
+                  <td>{{ pedido.total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
 
-                <td>
-                  <span class="status" [ngClass]="classeStatus(pedido.status)">{{ statusMap[pedido.status] }}</span>
-                </td>
+                  <td>
+                    <span class="status" [ngClass]="classeStatus(pedido.status)">{{ statusMap[pedido.status] }}</span>
+                  </td>
 
-                <td>{{ formatarData(pedido.dataHora) }}</td>
+                  <td>{{ formatarData(pedido.dataHora) }}</td>
 
-                <td class="acoes">
-                  <select (click)="$event.stopPropagation()" (change)="editarStatusPedido(pedido.id, +$any($event.target).value)">
-                    @for (status of statusMap| keyvalue; track status.key) {
-                      <option [value]="status.key" [selected]="pedido.status === +status.key">{{ status.value }}</option>
-                    }
-                  </select>
+                  <td class="acoes">
+                    <select (click)="$event.stopPropagation()" (change)="editarStatusPedido(pedido.id, +$any($event.target).value)">
+                      @for (status of statusMap| keyvalue; track status.key) {
+                        <option [value]="status.key" [selected]="pedido.status === +status.key">{{ status.value }}</option>
+                      }
+                    </select>
 
-                  <button class="btn-edit" [disabled]="pedido.status === 2" (click)="editarPedido(pedido.id); $event.stopPropagation()"></button>
-                  <button class="btn-delete" (click)="abrirModalPedido(pedido); $event.stopPropagation()"></button>
-                </td>
-              </tr>
+                    <button class="btn-edit" [disabled]="pedido.status === 2" (click)="editarPedido(pedido.id); $event.stopPropagation()"></button>
+                    <button class="btn-delete" (click)="abrirModalPedido(pedido); $event.stopPropagation()"></button>
+                  </td>
+                </tr>
+              }
             }
-          }
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   }
 </app-pagina-sem-footer>
