@@ -1,11 +1,26 @@
 .secao-1 {
-  background-color: #FEF9F0;
+  padding-top: 2rem;
+  background-image: url('../../../../public/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 50px;
+
+  div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  img {
+    width: 420px;
+  }
 
   .texto-primeira-compra {
     background-color: var(--fonte-laranja);
@@ -24,19 +39,21 @@
 
   h1 {
     text-align: center;
+    color: var(--fonte-branca);
     font-size: 4.5rem;
     line-height: 4.2rem;
     font-weight: 700;
+    width: 820px;
 
     span {
-      color: var(--fonte-laranja);
+      color: rgb(255, 230, 0);
     }
   }
 
   p {
     width: 600px;
     text-align: center;
-    color: var(--fonte-cinza);
+    color: var(--fonte-branca);
     font-weight: 400;
     font-size: 1.2rem;
   }
@@ -87,6 +104,7 @@
             transform: translateY(-5px);
             background-color: var(--fonte-laranja);
             color: var(--fonte-branca);
+            border: var(--fonte-laranja);
           }
         }
       }
@@ -175,17 +193,62 @@
   }
 }
 
+@media (min-width: 1800px) {
+  .secao-1 {
+    gap: 100px;
+
+    div {
+      gap: 20px;
+
+      h1 {
+        font-size: 4.8rem;
+      }
+
+      p {
+        font-size: 1.6rem;
+      }
+    }
+
+    img {
+      width: 550px;
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .secao-1 {
+    gap: 5px;
+
+    h1 {
+      width: auto;
+      font-size: 3.5rem;
+    }
+
+    img {
+      width: 380px;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
   .secao-1 {
-    gap: 10px;
+    gap: 30px;
+    flex-direction: column;
+    padding-top: 4.5rem;
 
     .texto-primeira-compra {
-      font-size: 1rem;
+      font-size: .9rem;
     }
 
     h1 {
       font-size: 2.5rem;
       line-height: 2.5rem;
+      width: auto;
+      -webkit-text-stroke: 1px black;
+    }
+
+    img {
+      width: 280px;
     }
 
     p {

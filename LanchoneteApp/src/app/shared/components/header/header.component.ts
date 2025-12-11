@@ -1,3 +1,4 @@
+import { HeaderStateService } from './../../../core/services/header-state.service';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../../core/services/auth.service';
@@ -15,16 +16,23 @@ export class HeaderComponent implements OnInit {
   public readonly authService: AuthService = inject(AuthService);
   public readonly pedidoservice: PedidoService = inject(PedidoService);
   private readonly carrinhoService: CarrinhoService = inject(CarrinhoService);
+  private readonly headerState: HeaderStateService = inject(HeaderStateService);
   private readonly router: Router = inject(Router);
 
   menuAberto: boolean = false;
   itens: number = 0;
+
+   modo: 'home-top' | 'default' = 'default';
 
   existePedidosEmAberto$ = this.pedidoservice.temPedidosEmAberto$;
 
   ngOnInit() {
     this.carrinhoService.quantidadeItens$.subscribe((qtd) => this.itens = qtd);
     this.pedidoservice.atualizarPedidosEmAberto();
+
+    this.headerState.estadoHeader$.subscribe(estado => {
+      this.modo = estado;
+    });
   }
 
   logout() {

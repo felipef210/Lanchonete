@@ -1,18 +1,24 @@
 <app-container>
-  <section class="secao-1">
-    <span class="texto-primeira-compra">🎉 10% de Desconto no Primeiro Pedido</span>
-    <h1>
-      Sua lanchonete favorita<br><span>agora informatizada</span>
-    </h1>
+  <section class="secao-1" #secao1>
+    <div>
+      <span class="texto-primeira-compra">🎉 10% de Desconto no Primeiro Pedido</span>
+      <h1>
+        Sua lanchonete favorita<br><span>agora informatizada</span>
+      </h1>
 
-    <p>Sabor irresistível, preparo rápido e ingredientes fresquinhos. Peça agora e coma em minutos!</p>
+      <p>Sabor irresistível, preparo rápido e ingredientes fresquinhos. Peça agora e coma em minutos!</p>
 
-    <nav>
-      <ul class="lista-navegacao">
-        <li><a class="btn-primario" (click)="redirecionar()"><img src="logo.png" alt="Ícone delivery"/> Fazer Pedido Agora</a></li>
-        <li><a class="btn-secundario" routerLink="/cardapio">Ver Cardápio</a></li>
-      </ul>
-    </nav>
+      <nav>
+        <ul class="lista-navegacao">
+          <li><a class="btn-primario" (click)="redirecionar()"><img src="logo.png" alt="Ícone delivery"/> Fazer Pedido Agora</a></li>
+          <li><a class="btn-secundario" routerLink="/cardapio">Ver Cardápio</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <figure>
+      <img src="imagem-home.png">
+    </figure>
   </section>
 
   <section class="secao-2">
@@ -22,7 +28,7 @@
       <app-card-lanchonete srcImagem="relogio.png" altImagem="Ícone de relógio" titulo="Preparo Rápido" texto="Seu lanche quentinho em até 15 minutos"></app-card-lanchonete>
       <app-card-lanchonete srcImagem="chapeu-cozinheiro.png" altImagem="Ícone de chapéu de cozinheiro" titulo="Ingredientes Frescos" texto="Selecionamos o melhor todos os dias"></app-card-lanchonete>
       <app-card-lanchonete srcImagem="coracao.png" altImagem="Ícone de coração" titulo="Feito com Amor" texto="Cada pedido é preparado com carinho"></app-card-lanchonete>
-      <app-card-lanchonete srcImagem="escudo.png" altImagem="Ícone de escudo" titulo="Pagamento Seguro" texto="Suas informações sempre protegidas"></app-card-lanchonete>
+      <app-card-lanchonete srcImagem="dolar.png" altImagem="Ícone de escudo" titulo="Preço justo" texto="Valores de acordo com o que entregamos"></app-card-lanchonete>
     </div>
   </section>
 

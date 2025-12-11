@@ -74,10 +74,14 @@
 
         li {
           margin: .5rem 0;
-          color: var(--fonte-cinza);
           display: flex;
           align-items: center;
           gap: 5px;
+
+          a {
+            color: var(--fonte-cinza);
+            text-decoration: none;
+          }
 
           img {
             width: 1.2rem;
