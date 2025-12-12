@@ -20,13 +20,6 @@
 
       <div class="lista-produtos">
         <h2>Lista de Produtos</h2>
-        @let produtos = produto$ | async;
-        <span>
-          {{ produtos?.length }}
-          {{ produtos?.length === 1 ? 'produto' : 'produtos' }}
-          {{ produtos?.length === 1 ? 'cadastrado' : 'cadastrados' }}
-        </span><br>
-
         <input type="text" placeholder="Procure o produto..." (input)="filtrarPorNome($event)"/>
 
         <div class="produtos">
